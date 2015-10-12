@@ -1,0 +1,12 @@
+/**/target/
+
+# IDE
+.idea/
+*.iml
+
+# NetBeans specific #
+nbproject/private/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
