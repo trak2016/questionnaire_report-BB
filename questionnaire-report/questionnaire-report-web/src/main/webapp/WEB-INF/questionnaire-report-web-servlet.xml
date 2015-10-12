@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="windows-1250"?>
+<beans xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns="http://www.springframework.org/schema/beans"
+
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <mvc:annotation-driven/>
+
+    <mvc:resources location="/resources/" mapping="/resources/**"/>
+
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <security:global-method-security jsr250-annotations="enabled" pre-post-annotations="enabled"
+                                     secured-annotations="enabled">
+        <security:expression-handler ref="expressionHandler"/>
+    </security:global-method-security>
+    
+    
+    <context:component-scan base-package="pl.com.mmadry.questionnaire.report.web.controller,
+            pl.com.mmadry.questionnaire.report.web.assembler,
+            pl.com.mmadry.questionnaire.report.web.helper,
+            pl.com.mmadry.questionnaire.report.*.api"/>
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="-1"/>
+    </bean>
+
+    <bean id="localeResolver"
+          class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="pl"/>
+        <property name="cookieName" value="myAppLocaleCookie"/>
+        <property name="cookieMaxAge" value="3600"/>
+    </bean>
+
+    <mvc:interceptors>
+        <bean id="localeChangeInterceptor"
+              class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="language"/>
+        </bean>
+    </mvc:interceptors>
+
+
+</beans>

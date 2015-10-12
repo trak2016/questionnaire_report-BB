@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>questionnaire-report</artifactId>
+        <groupId>pl.com.mmadry</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>pl.com.mmadry</groupId>
+    <artifactId>questionnaire-report-web</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <name>questionnaire-report-web</name>
+
+    <properties>
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-envers</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <artifactId>spring-security-core</artifactId>
+            <groupId>org.springframework.security</groupId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+
+        <profile>
+            <id>dev</id>
+
+            <build>
+                <finalName>questionnaire-report-web</finalName>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>${basedir}/src/main/deployment/dev</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <activation>
+                <property>
+                    <name>dev</name>
+                </property>
+            </activation>
+        </profile>
+
+        <profile>
+            <id>test</id>
+
+            <build>
+                <finalName>questionnaire-report-web</finalName>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>${basedir}/src/main/deployment/test</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <activation>
+                <property>
+                    <name>test</name>
+                </property>
+            </activation>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+
+            <build>
+                <finalName>questionnaire-report-web</finalName>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>${basedir}/src/main/deployment/prod</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <activation>
+                <property>
+                    <name>prod</name>
+                </property>
+            </activation>
+        </profile>
+
+    </profiles>
+
+</project>

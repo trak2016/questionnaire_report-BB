@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+        ">
+
+    <security:http access-decision-manager-ref="accessDecisionManager" use-expressions="true">
+
+        <security:intercept-url access="permitAll()" pattern="/api/**"/>
+        <security:intercept-url access="permitAll()" pattern="/favicon.ico"/>
+        <security:intercept-url access="permitAll()" pattern="/robots.txt"/>
+        <security:intercept-url access="permitAll()" pattern="/resources/**"/>
+        <security:intercept-url access="permitAll()" pattern="/**"/>
+
+        <security:form-login authentication-failure-url="/app/auth/login?error"
+                             default-target-url="/app/"
+                             login-page="/app/auth/login" password-parameter="password"
+                             username-parameter="username"/>
+        <security:anonymous/>
+        <security:http-basic/>
+        <security:logout invalidate-session="true" logout-success-url="/app/auth/login"
+                         logout-url="/app/auth/logout"/>
+        <security:expression-handler ref="defaultWebSecurityExpressionHandler"/>
+        <security:remember-me remember-me-parameter="remember" user-service-ref="detailsManager"/>
+    </security:http>
+
+    <security:authentication-manager alias="myAuthManager">
+        <security:authentication-provider>
+            <security:password-encoder ref="passwordEncoder"/>
+            <security:jdbc-user-service data-source-ref="dataSource" id="detailsManager"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <security:global-method-security jsr250-annotations="enabled" pre-post-annotations="enabled"
+                                     secured-annotations="enabled">
+        <security:expression-handler ref="expressionHandler"/>
+    </security:global-method-security>
+
+    <bean class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler"
+          id="expressionHandler">
+        <property name="roleHierarchy" ref="roleHierarchy"/>
+    </bean>
+
+    <bean class="org.springframework.security.access.vote.RoleHierarchyVoter" id="roleVoter">
+        <constructor-arg ref="roleHierarchy"/>
+    </bean>
+
+    <bean class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl"
+          id="roleHierarchy">
+        <property name="hierarchy">
+            <value>
+                ROLE_SYS_ADMIN > ROLE_ADMIN
+                ROLE_ADMIN > ROLE_MODERATOR
+                ROLE_MODERATOR > ROLE_USER
+            </value>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.security.access.vote.AffirmativeBased"
+          id="accessDecisionManager">
+        <constructor-arg name="decisionVoters">
+            <list>
+                <ref bean="roleVoter"/>
+                <ref bean="expressionVoter"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"
+          id="defaultWebSecurityExpressionHandler">
+        <property name="roleHierarchy" ref="roleHierarchy"/>
+    </bean>
+
+    <bean class="org.springframework.security.web.access.expression.WebExpressionVoter"
+          id="expressionVoter">
+        <property name="expressionHandler" ref="defaultWebSecurityExpressionHandler"/>
+    </bean>
+
+    <bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
+
+    <bean class="org.springframework.security.crypto.password.StandardPasswordEncoder"
+          id="passwordEncoder"/>
+
+</beans>
