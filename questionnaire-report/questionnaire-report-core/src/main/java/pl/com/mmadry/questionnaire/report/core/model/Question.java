@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
+import pl.com.mmadry.questionnaire.report.core.enums.QuestionType;
 
 
 /**
@@ -21,8 +24,9 @@ import org.hibernate.annotations.Cascade;
 @Table(name = "question", schema = "public")
 public class Question extends BaseEntity{
     
-    @Column(name = "typ")
-    private String type;
+    @Column()
+    @Enumerated(EnumType.STRING)
+    private QuestionType type;
     
     @Column(name = "text")
     private String text;
@@ -43,11 +47,11 @@ public class Question extends BaseEntity{
         this.text = text;
     }
 
-    public String getType() {
+    public QuestionType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(QuestionType type) {
         this.type = type;
     }
 
