@@ -10,10 +10,12 @@
 
     <security:http access-decision-manager-ref="accessDecisionManager" use-expressions="true">
 
-        <security:intercept-url access="permitAll()" pattern="/api/**"/>
+        
         <security:intercept-url access="permitAll()" pattern="/favicon.ico"/>
         <security:intercept-url access="permitAll()" pattern="/robots.txt"/>
         <security:intercept-url access="permitAll()" pattern="/resources/**"/>
+        <security:intercept-url access="hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_SYS_ADMIN')" pattern="/index.html"/>
+        <security:intercept-url access="hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_SYS_ADMIN')" pattern="/api/**"/>
         <security:intercept-url access="permitAll()" pattern="/**"/>
 
         <security:form-login authentication-failure-url="/app/auth/login?error"

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="mailSender">
+        <property name="host" value="${mail.host}"/>
+        <property name="port" value="${mail.port}"/>
+        <property name="username" value="${mail.username}"/>
+        <property name="password" value="${mail.password}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+                <prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+                <prop key="mail.debug">${mail.debug}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.ui.velocity.VelocityEngineFactoryBean" id="velocityEngine">
+        <property name="velocityProperties">
+            <value>
+                resource.loader=class
+                class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+                velocimacro.permissions.allow.inline.to.replace.global = true
+                velocimacro.permissions.allow.inline.local.scope = true
+                velocimacro.library = template/mail/makro.vm
+            </value>
+        </property>
+    </bean>
+
+    <bean class="pl.com.mmadry.questionnaire.report.core.service.MailTemplateServiceImpl"
+          id="mailTemplateService">
+        <property name="appName" value="${appName}"/>
+        <property name="serverUrl" value="${serverUrl}"/>
+        <property name="supportEmailAddress" value="${supportEmailAddress}"/>
+        <property name="velocityEngine" ref="velocityEngine"/>
+    </bean>
+
+    <bean class="pl.com.mmadry.questionnaire.report.core.service.MailServiceImpl" id="mailService">
+        <property name="defaultMailFrom" value="${mail.defaultMailFrom}"/>
+        <property name="defaultReplyTo" value="${mail.defaultReplyTo}"/>
+        <property name="mailSender" ref="mailSender"/>
+        <property name="mailTemplateService" ref="mailTemplateService"/>
+    </bean>
+
+</beans>

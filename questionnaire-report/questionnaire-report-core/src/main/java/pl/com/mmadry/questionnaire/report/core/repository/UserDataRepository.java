@@ -9,4 +9,6 @@ import pl.com.mmadry.questionnaire.report.core.model.UserData;
  */
 public interface UserDataRepository extends JpaRepository<UserData, Long>{
     
+    UserData findByRegistrationToken(String token);
+    UserData findByEmail(String email);
 }

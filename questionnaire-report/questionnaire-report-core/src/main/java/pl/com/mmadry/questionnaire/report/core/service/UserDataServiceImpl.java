@@ -1,9 +1,17 @@
 package pl.com.mmadry.questionnaire.report.core.service;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.com.mmadry.questionnaire.report.core.enums.Role;
 import pl.com.mmadry.questionnaire.report.core.model.UserData;
 import pl.com.mmadry.questionnaire.report.core.repository.UserDataRepository;
 
@@ -17,6 +25,12 @@ public class UserDataServiceImpl implements UserDataService {
 
     @Autowired
     private UserDataRepository userDataRepository;
+
+    @Autowired(required = false)
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserDetailsManager userDetailsManager;
 
     @Override
     @Transactional(readOnly = true)
@@ -53,6 +67,51 @@ public class UserDataServiceImpl implements UserDataService {
     @Override
     public UserData save(UserData element) {
         return userDataRepository.save(element);
+    }
+
+    @Override
+    public void add(UserData element, Role... roles) {
+        GrantedAuthority[] grantedAuthorities = new GrantedAuthority[roles.length];
+        int i = 0;
+        for (Role role : roles) {
+            grantedAuthorities[i++] = new SimpleGrantedAuthority(role.toString());
+        }
+
+        List<GrantedAuthority> auth = Arrays.asList(grantedAuthorities);
+        User user = new User(element.getUser().getUsername(),
+                encodePassword(element.getUser().getPassword()), false, true, true,
+                true, auth);
+        userDetailsManager.createUser(user);
+
+        element.setCreationDate(new Date());
+
+        userDataRepository.saveAndFlush(element);
+    }
+
+    @Override
+    public void enableUser(long id) {
+        UserData user = userDataRepository.findOne(id);
+        user.getUser().setEnabled(true);
+        userDataRepository.save(user);
+    }
+
+    @Override
+    public UserData findByToken(String token) {
+        return userDataRepository.findByRegistrationToken(token);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserData findByEmail(String email) {
+        return userDataRepository.findByEmail(email);
+    }
+    
+    private String encodePassword(String passwordPlainText) {
+
+        if (passwordEncoder != null) {
+            return passwordEncoder.encode(passwordPlainText);
+        }
+        return passwordPlainText;
     }
 
 }

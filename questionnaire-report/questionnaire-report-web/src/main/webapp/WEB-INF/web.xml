@@ -42,7 +42,8 @@
         <param-value>
             classpath:questionnaire-report-web-persistence.xml,
             classpath:questionnaire-report-web-security.xml,
-            classpath:questionnaire-report-web-core.xml
+            classpath:questionnaire-report-web-core.xml,
+            classpath:questionnaire-report-web-mail.xml
         </param-value>
     </context-param>
 
