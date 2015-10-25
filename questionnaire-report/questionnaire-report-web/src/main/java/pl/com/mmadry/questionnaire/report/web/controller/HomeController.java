@@ -17,7 +17,7 @@ public class HomeController extends BaseController {
 
         logCalledMethod();
 
-        return "redirect:/index.html";
+        return "redirect:/resources/index.html";
     }
     
     @RequestMapping(value = "/index", method = RequestMethod.GET)
