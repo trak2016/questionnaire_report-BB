@@ -12,9 +12,9 @@
         'toastr',
         'ngAnimate',
         // controllers
-
+        'questionnaireController',
         // services
-      
+        'questionnaireService'
         // directives
         
         // Idle timer

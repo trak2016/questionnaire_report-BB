@@ -32,6 +32,9 @@ public class Questionnaire extends BaseEntity{
     @Column(name = "target")
     private String targer;
     
+    @Column(name = "description")
+    private String description;
+    
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     @OneToMany(mappedBy = "questionnaire")
     private List<Question> questions = new ArrayList<>();
@@ -116,6 +119,13 @@ public class Questionnaire extends BaseEntity{
     public void setUserDatas(List<UserData> userDatas) {
         this.userDatas = userDatas;
     }
-    
-    
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+     
 }
