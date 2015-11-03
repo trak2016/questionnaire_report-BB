@@ -10,6 +10,7 @@
 
     <security:http access-decision-manager-ref="accessDecisionManager" use-expressions="true">
 
+        <security:intercept-url access="permitAll()" pattern="/resources/css/**"/>
         <security:intercept-url access="hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_SYS_ADMIN')" pattern="/resources/**"/>
         <security:intercept-url access="hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_SYS_ADMIN')" pattern="/api/**"/>
 

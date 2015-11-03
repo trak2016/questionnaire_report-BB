@@ -42,6 +42,34 @@ angular.module('questionnaireController', [])
                             .withOption('defaultContent', "")
                 ];
 
+                $scope.addQuestionnaire = function () {
+                    $state.go('questionnaire.create');
+                };
+
 
             }])
-        
+        .controller('questionnaireCreateController', ['$scope', '$rootScope', '$state', '$http', 'toastr', 'QuestionnaireService', 'DTOptionsBuilder', 'DTColumnDefBuilder',
+            function ($scope, $rootScope, $state, $http, toastr, QuestionnaireService, DTOptionsBuilder, DTColumnDefBuilder) {
+
+                $scope.questionnaire = {};
+
+                $scope.addQuestionnaire = function () {
+
+
+                }
+
+                $scope.addQuestionModal = function () {
+                    $scope.question = {};
+                    $("#questionModal").modal('show');
+                };
+
+                $scope.cancelQuestionModal = function () {
+                    $("#questionModal").modal('hide');
+                };
+                
+                $scope.cancelQuestionnaire = function () {
+                    $scope.questionnaire = {};
+                    $state.go('questionnaire.list');
+                };
+
+            }])
