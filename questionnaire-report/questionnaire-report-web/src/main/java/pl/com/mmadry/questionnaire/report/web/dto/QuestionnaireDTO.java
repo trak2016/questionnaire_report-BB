@@ -1,6 +1,8 @@
 package pl.com.mmadry.questionnaire.report.web.dto;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -8,10 +10,20 @@ import java.io.Serializable;
  */
 public class QuestionnaireDTO implements Serializable {
 
+    private Long id;
     private String title;
     private String status;
     private String targer;
     private String description;
+    private List<QuestionDTO> questions = new LinkedList<>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -45,9 +57,17 @@ public class QuestionnaireDTO implements Serializable {
         this.description = description;
     }
 
+    public List<QuestionDTO> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<QuestionDTO> questions) {
+        this.questions = questions;
+    }
+
     @Override
     public String toString() {
-        return "QuestionnaireDTO{" + "title=" + title + ", status=" + status + ", targer=" + targer + ", description=" + description + '}';
+        return "QuestionnaireDTO{" + "title=" + title + ", status=" + status + ", targer=" + targer + ", description=" + description + ", questions=" + questions + '}';
     }
-    
+
 }

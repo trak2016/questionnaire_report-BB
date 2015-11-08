@@ -36,7 +36,7 @@ public class Questionnaire extends BaseEntity{
     private String description;
     
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
-    @OneToMany(mappedBy = "questionnaire")
+    @OneToMany(mappedBy = "questionnaire", orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
     
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
@@ -93,7 +93,8 @@ public class Questionnaire extends BaseEntity{
     }
 
     public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+        this.questions.clear();
+        this.questions.addAll(questions);
     }
 
     public String getStatus() {

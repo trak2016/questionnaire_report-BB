@@ -1,0 +1,57 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h4 class="modal-title">Dodaj nowe pytanie</h4>
+    </div>
+    <div class="modal-body">
+        <div class="ibox">
+            <form class="form-horizontal" id="questionForm" name="questionForm" angular-validator angular-validator-submit="addQuestion()" >
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Treść pytania:</label>
+                    <div class="col-sm-10"><textarea name="text" class="form-control" ng-model="question.text" required/></div>
+                </div> 
+                <div class="hr-line-dashed"/>
+                <div class="form-group">                           
+                    <div class="col-sm-1"><input type="radio" checked="" value="text" id="optionsRadios1" name="optionsRadios" ng-model="question.type"></div>
+                    <label class="col-sm-11">Pytanie do samodzielnej odpowiedzi</label>       
+                </div>
+                <div class="form-group">                           
+                    <div class="col-sm-1"><input type="radio" value="checkbox" id="optionsRadios2" name="optionsRadios" ng-model="question.type"></div>
+                    <label class="col-sm-11">Pytanie z wieloma możliwymi odpowiedziami (zdefiniowane)</label>       
+                </div>
+                <div class="form-group">                           
+                    <div class="col-sm-1"><input type="radio" value="radio" id="optionsRadios3" name="optionsRadios" ng-model="question.type"></div>
+                    <label class="col-sm-11">Pytanie z jedną możliwą odpowiedzią (zdefiniowane)</label>       
+                </div>
+                <div class="hr-line-dashed"/>
+                <div ng-if="question.type !== 'text'">
+                    <div class="form-group">
+                        <div class="questions" ui-sortable="answerSortableOptions" ng-model="question.answers" >
+                            <div class="questionnaire-question col-md-12" ng-repeat="answer in question.answers">
+                                <div class="col-md-1 questionnaire-question-ordinal">
+                                    <span class="questionnaire-question-ordinal">{{$index + 1}}</span>
+                                </div>
+                                <div class="col-md-9">
+                                    {{answer.text}}
+                                </div>   
+                                <div class="col-md-2 text-right">
+                                    <button class="btn btn-xs btn-danger" ng-click="deleteAnswer(answer)" type="button">Usuń</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="input-group"><input type="text" placeholder="Wpisz treść odpowiedzi" class="input-sm form-control" ng-model="answer"> <span class="input-group-btn">
+                                <button type="button" class="btn btn-sm btn-default" ng-click="addAnswer(answer)"> Dodaj</button> </span></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-white" ng-click="cancel()">Anuluj</button>
+        <button type="submit" form="questionForm" ng-click="addQuestion()" class="btn btn-primary">Dodaj</button>
+    </div>
+
+</div>
+

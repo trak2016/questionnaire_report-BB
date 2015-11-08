@@ -36,8 +36,11 @@ public class Question extends BaseEntity{
     private Questionnaire questionnaire;
     
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "question")
+    @OneToMany(fetch = FetchType.LAZY , mappedBy = "question" , orphanRemoval = true)
     private List<Answer> answers = new ArrayList<>();
+    
+    @Column(name = "number")
+    private Integer number;
 
     public String getText() {
         return text;
@@ -68,10 +71,18 @@ public class Question extends BaseEntity{
     }
 
     public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
+        this.answers.clear();
+        this.answers.addAll(answers);
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
 
-    
     
 }

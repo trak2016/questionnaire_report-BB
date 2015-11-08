@@ -28,7 +28,21 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 url: "/create",
                 templateUrl: "views/questionnaire/create.html",
                 controller: "questionnaireCreateController",
-                data: {pageTitle: 'Edytor ankiety'}
+                data: {pageTitle: 'Edytor ankiety'},
+                resolve: {
+                    loadPlugin: function ($ocLazyLoad) {
+                        return $ocLazyLoad.load([
+                            {
+                                name: 'ui.sortable',
+                                files: ['js/plugins/ui-sortable/sortable.js']
+                            },
+                            {
+                                name: 'ui.tree',
+                                files: ['css/plugins/uiTree/angular-ui-tree.min.css', 'css/tree-node.css', 'js/plugins/uiTree/angular-ui-tree.min.js']
+                            }
+                        ]);
+                    }
+                }
             })
 
 
@@ -36,6 +50,15 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
 angular
         .module('inspinia')
         .config(config)
+        .config(function (toastrConfig) {
+            angular.extend(toastrConfig, {
+                autoDismiss: false,
+                closeButton: true,
+                extendedTimeOut: 1000,
+                progressBar: true,
+                timeOut: 5000
+            });
+        })
         .run(function ($rootScope, $state) {
             $rootScope.$state = $state;
         });

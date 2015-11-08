@@ -19,11 +19,11 @@ import javax.persistence.Table;
 @Entity
 @SuppressWarnings("PersistenceUnitPresent")
 @Table(name = "answer", schema = "public")
-public class Answer extends BaseEntity{
-    
+public class Answer extends BaseEntity {
+
     @Column(name = "text")
     private String text;
-    
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "answer_userdata",
@@ -35,10 +35,13 @@ public class Answer extends BaseEntity{
             }
     )
     private List<UserData> userDatas = new ArrayList<>();
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     private Question question;
+
+    @Column(name = "number")
+    private Integer number;
 
     public Question getQuestion() {
         return question;
@@ -47,7 +50,6 @@ public class Answer extends BaseEntity{
     public void setQuestion(Question question) {
         this.question = question;
     }
-
 
     public String getText() {
         return text;
@@ -64,5 +66,14 @@ public class Answer extends BaseEntity{
     public void setUserDatas(List<UserData> userDatas) {
         this.userDatas = userDatas;
     }
- 
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+
 }
