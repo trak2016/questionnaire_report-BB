@@ -14,7 +14,7 @@
         <div class="container">
 
             <div class="page-header">
-                <h1>Rejstracja</h1>
+                <h1>Rejestracja</h1>
             </div>
 
             <c:url value="/app/registration/formAction" var="action"/>

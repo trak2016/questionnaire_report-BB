@@ -179,3 +179,10 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                 };
 
             }])
+        
+        .controller('questionnaireDoneController', ['$scope', '$rootScope', '$state', '$http', 'toastr', 'QuestionnaireService', 'DTOptionsBuilder', 'DTColumnDefBuilder',
+            function ($scope, $rootScope, $state, $http, toastr, QuestionnaireService, DTOptionsBuilder, DTColumnDefBuilder) {
+
+                $scope.questionnaires = [];
+
+            }])

@@ -40,6 +40,10 @@
                     <a href="<c:url value="/app/resetPassword/form"/>">Zapomniałem hasło</a>
                 </div>
 
+                <div class="checkbox">
+                    <a href="<c:url value="/app/registration/form"/>">Rejestracja</a>
+                </div>
+
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Zaloguj</button>

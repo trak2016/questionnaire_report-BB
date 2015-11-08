@@ -13,6 +13,9 @@
         'ngAnimate',
         // controllers
         'questionnaireController',
+        'profilController',
+        'archiveController',
+        'taskController',
         // services
         'questionnaireService'
         // directives

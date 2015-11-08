@@ -22,7 +22,13 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 url: "/list",
                 templateUrl: "views/questionnaire/list.html",
                 controller: "questionnaireController",
-                data: {pageTitle: 'Ankiety'}
+                data: {pageTitle: 'Szablony'}
+            })
+            .state('questionnaire.listDone', {
+                url: "/listDone",
+                templateUrl: "views/questionnaire/listDone.html",
+                controller: "questionnaireDoneController",
+                data: {pageTitle: 'Ankiety zatwierdzone'}
             })
             .state('questionnaire.create', {
                 url: "/create",
@@ -43,6 +49,39 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                         ]);
                     }
                 }
+            })
+            .state('archive', {
+                abstract: true,
+                url: "/archive",
+                templateUrl: "views/common/content.html"
+            })
+            .state('archive.list', {
+                url: "/list",
+                templateUrl: "views/archive/list.html",
+                controller: "archiveController",
+                data: {pageTitle: 'Archiwum'}
+            })
+            .state('profil', {
+                abstract: true,
+                url: "/profil",
+                templateUrl: "views/common/content.html"
+            })
+            .state('profil.profil', {
+                url: "/profil",
+                templateUrl: "views/profil/profil.html",
+                controller: "profilController",
+                data: {pageTitle: 'Profil'}
+            })
+            .state('task', {
+                abstract: true,
+                url: "/task",
+                templateUrl: "views/common/content.html"
+            })
+            .state('task.list', {
+                url: "/task",
+                templateUrl: "views/task/list.html",
+                controller: "taskController",
+                data: {pageTitle: 'Zadania'}
             })
 
 

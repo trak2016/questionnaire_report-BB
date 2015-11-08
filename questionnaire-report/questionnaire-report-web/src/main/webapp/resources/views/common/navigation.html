@@ -6,31 +6,54 @@
                 <div class="dropdown profile-element" dropdown>
                     <img alt="image" class="img-circle" src="img/profile_small.jpg"/>
                     <a class="dropdown-toggle" dropdown-toggle href>
-                            <span class="clear">
-                                <span class="block m-t-xs">
-                                    <strong class="font-bold">Mateusz Mądry</strong>
-                             </span>
-                                <span class="text-muted text-xs block">Opcje <b class="caret"></b></span>
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold">Mateusz Mądry</strong>
                             </span>
+                            <span class="text-muted text-xs block">Opcje <b class="caret"></b></span>
+                        </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a ui-sref="profile">Profil</a></li>
                         <li class="divider"></li>
-                        <li><a href="../login.html">Wyloguj</a></li>
+                        <li><a href="../app/auth/logout">Wyloguj</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">
                     IN+
                 </div>
             </li>
-            
-            <li ng-class="{active: $state.includes('questionnaire')}" ui-sref-active="active"><a ui-sref="questionnaire.list">
-                    <i class="fa fa-bookmark"></i> <span class="nav-label">Ankiety</span></a>
+
+            <!--            <li ng-class="{active: $state.includes('questionnaire')}" ui-sref-active="active"><a ui-sref="questionnaire.list">
+                                <i class="fa fa-bookmark"></i> <span class="nav-label">Ankiety</span></a>
+                        </li>-->
+            <li ng-class="{active: $state.includes('profil')}" ui-sref-active="active"><a ui-sref="profil.profil">
+                    <i class="fa fa-user"></i> <span class="nav-label">Profil</span></a>
             </li>
-<!--            <li ng-class="{active: $state.includes('user')}" ui-sref-active="active"><a ui-sref="user.list">
+
+            <li ng-class="{active: $state.includes('questionnaire')}">
+                <a href=""><i class="fa fa-bookmark"></i> <span class="nav-label">Ankiety</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" ng-class="{in: $state.includes('questionnaire')}">
+
+                    <li ui-sref-active="active"><a ui-sref="questionnaire.list">Szablony</a></li>
+                    <li ui-sref-active="active"><a ui-sref="questionnaire.listDone">Zaakceptowane</a></li>
+
+
+                </ul>
+            </li>
+
+            <li ng-class="{active: $state.includes('task')}" ui-sref-active="active"><a ui-sref="task.list">
+                    <i class="fa fa-tasks"></i> <span class="nav-label">Zadania</span></a>
+            </li>
+
+            <li ng-class="{active: $state.includes('user')}" ui-sref-active="active"><a>
                     <i class="fa fa-female"></i> <span class="nav-label">Użytkownicy</span></a>
-            </li>-->
-            
+            </li>
+
+            <li ng-class="{active: $state.includes('archive')}" ui-sref-active="active" ><a ui-sref="archive.list">
+                    <i class="fa fa-book"></i> <span class="nav-label">Archiwum</span></a>
+            </li>
+
         </ul>
 
     </div>
