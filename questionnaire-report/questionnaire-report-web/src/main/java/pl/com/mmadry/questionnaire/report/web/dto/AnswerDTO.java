@@ -10,7 +10,7 @@ public class AnswerDTO implements Serializable{
     
     private Long id;
     private String text;
-    private Integer order;
+    private Integer number;
 
     public Long getId() {
         return id;
@@ -28,17 +28,17 @@ public class AnswerDTO implements Serializable{
         this.text = text;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getNumber() {
+        return number;
     }
 
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     @Override
     public String toString() {
-        return "AnswerDTO{" + "id=" + id + ", text=" + text + ", order=" + order + '}';
+        return "AnswerDTO{" + "id=" + id + ", text=" + text + ", number=" + number + '}';
     }
 
 }

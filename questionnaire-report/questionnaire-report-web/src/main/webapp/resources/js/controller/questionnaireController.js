@@ -45,14 +45,24 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                 $scope.addQuestionnaire = function () {
                     $state.go('questionnaire.create');
                 };
+                
+                $scope.editQuestionnaire = function (id) {
+                    $state.go('questionnaire.create', {questionnaireId : id});
+                };
 
 
             }])
-        .controller('questionnaireCreateController', ['$scope', '$rootScope', '$state', '$http', 'toastr', 'QuestionnaireService', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$modal',
-            function ($scope, $rootScope, $state, $http, toastr, QuestionnaireService, DTOptionsBuilder, DTColumnDefBuilder, $modal) {
+        .controller('questionnaireCreateController', ['$scope', '$rootScope', '$state', '$http', 'toastr', 'QuestionnaireService', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$modal', '$stateParams',
+            function ($scope, $rootScope, $state, $http, toastr, QuestionnaireService, DTOptionsBuilder, DTColumnDefBuilder, $modal, $stateParams) {
 
                 $scope.questionnaire = {};
                 $scope.questionnaire.questions = [];
+
+                if ($stateParams.questionnaireId !== null && $stateParams.questionnaireId !== undefined) {
+                    QuestionnaireService.api.getById({"questionnaireId": $stateParams.questionnaireId}).$promise.then(function (result) {
+                        $scope.questionnaire = result;
+                    });
+                }
 
                 $scope.addQuestionnaire = function () {
                     QuestionnaireService.api.save($scope.questionnaire).$promise.then(function (result) {
@@ -179,7 +189,7 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                 };
 
             }])
-        
+
         .controller('questionnaireDoneController', ['$scope', '$rootScope', '$state', '$http', 'toastr', 'QuestionnaireService', 'DTOptionsBuilder', 'DTColumnDefBuilder',
             function ($scope, $rootScope, $state, $http, toastr, QuestionnaireService, DTOptionsBuilder, DTColumnDefBuilder) {
 

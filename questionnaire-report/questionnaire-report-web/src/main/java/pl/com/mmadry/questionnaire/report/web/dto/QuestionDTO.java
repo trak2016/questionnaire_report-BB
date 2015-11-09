@@ -13,7 +13,7 @@ public class QuestionDTO implements Serializable{
     private Long id;
     private String text;
     private String type;
-    private Integer order;
+    private Integer number;
     private List<AnswerDTO> answers = new LinkedList<>();
 
     public Long getId() {
@@ -40,14 +40,6 @@ public class QuestionDTO implements Serializable{
         this.type = type;
     }
 
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
-    }
-
     public List<AnswerDTO> getAnswers() {
         return answers;
     }
@@ -56,9 +48,17 @@ public class QuestionDTO implements Serializable{
         this.answers = answers;
     }
 
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
     @Override
     public String toString() {
-        return "QuestionDTO{" + "id=" + id + ", text=" + text + ", type=" + type + ", order=" + order + ", answers=" + answers + '}';
+        return "QuestionDTO{" + "id=" + id + ", text=" + text + ", type=" + type + ", number=" + number + ", answers=" + answers + '}';
     }
 
 }

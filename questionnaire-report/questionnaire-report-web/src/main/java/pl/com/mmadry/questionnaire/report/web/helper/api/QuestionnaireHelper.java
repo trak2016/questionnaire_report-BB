@@ -25,7 +25,7 @@ import pl.com.mmadry.questionnaire.report.web.helper.BaseHelper;
  */
 @Component
 public class QuestionnaireHelper extends BaseHelper {
-    
+
     @Autowired
     private QuestionnaireService questionnaireService;
     @Autowired
@@ -34,11 +34,11 @@ public class QuestionnaireHelper extends BaseHelper {
     private QuestionService questionService;
     @Autowired
     private AnswerService answerService;
-    
+
     public List<QuestionnaireDTO> getAll() {
         List<QuestionnaireDTO> questionnaireDTOs = new ArrayList<>();
         List<Questionnaire> questionnaires = questionnaireService.getElements();
-        
+
         for (Questionnaire questionnaire : questionnaires) {
             QuestionnaireAssemblerParameters parameters = new QuestionnaireAssemblerParameters.Builder()
                     .dbo(questionnaire)
@@ -47,27 +47,27 @@ public class QuestionnaireHelper extends BaseHelper {
         }
         return questionnaireDTOs;
     }
-    
+
     public void addNewQuestionnaire(QuestionnaireDTO dto) {
-        
+
         if (dto == null) {
             return;
         }
-        
+
         Questionnaire questionnaire;
-        
+
         if (dto.getId() == null) {
             questionnaire = new Questionnaire();
         } else {
             questionnaire = questionnaireService.getElement(dto.getId());
         }
-        
+
         questionnaire.setTitle(dto.getTitle());
         questionnaire.setTarger(dto.getTarger());
         questionnaire.setDescription(dto.getDescription());
-        
+
         questionnaireService.add(questionnaire);
-        
+
         List<Question> questions = new ArrayList<>();
         Integer i = 1;
         for (QuestionDTO questionDTO : dto.getQuestions()) {
@@ -77,12 +77,12 @@ public class QuestionnaireHelper extends BaseHelper {
             } else {
                 question = questionService.getElement(questionDTO.getId());
             }
-            
+
             question.setNumber(i);
             question.setText(questionDTO.getText());
-            question.setType(getType(questionDTO.getType()));
+            question.setType(questionDTO.getType());
             question.setQuestionnaire(questionnaire);
-            
+
             Integer j = 1;
             List<Answer> answers = new LinkedList<>();
             for (AnswerDTO answerDTO : questionDTO.getAnswers()) {
@@ -94,20 +94,21 @@ public class QuestionnaireHelper extends BaseHelper {
                 }
                 answer.setNumber(j);
                 answer.setText(answerDTO.getText());
-                System.out.println(answer.getText());
                 answer.setQuestion(question);
                 answers.add(answer);
             }
-            
+
             question.setAnswers(answers);
-            
+
             i++;
             questionService.add(question);
             questions.add(question);
         }
-        
+        questionnaire.setQuestions(questions);
+        questionnaireService.add(questionnaire);
+
     }
-    
+
     private QuestionType getType(String type) {
         switch (type) {
             case "text":
@@ -117,8 +118,43 @@ public class QuestionnaireHelper extends BaseHelper {
             case "radio":
                 return QuestionType.RADIO;
         }
-        
+
         return QuestionType.TEXT;
     }
-    
+
+    public QuestionnaireDTO getById(Long id) {
+        QuestionnaireDTO dto = new QuestionnaireDTO();
+        Questionnaire questionnaire = questionnaireService.getElement(id);
+
+        dto.setId(questionnaire.getId());
+        dto.setDescription(questionnaire.getDescription());
+        dto.setTarger(questionnaire.getTarger());
+        dto.setTitle(questionnaire.getTitle());
+
+        List<QuestionDTO> questionsDTO = new LinkedList<>();
+        for (Question question : questionnaire.getQuestions()) {
+            QuestionDTO questionDTO = new QuestionDTO();
+            questionDTO.setId(question.getId());
+            questionDTO.setNumber(question.getNumber());
+            questionDTO.setType(question.getType());
+            questionDTO.setText(question.getText());
+
+            List<AnswerDTO> answersDTO = new LinkedList<>();
+            if (!question.getType().equals("text")) {
+                for (Answer answer : question.getAnswers()) {
+                    AnswerDTO answerDTO = new AnswerDTO();
+                    answerDTO.setId(answer.getId());
+                    answerDTO.setNumber(answer.getNumber());
+                    answerDTO.setText(answer.getText());
+                    answersDTO.add(answerDTO);
+                }
+            }
+            questionDTO.setAnswers(answersDTO);
+            questionsDTO.add(questionDTO);
+        }
+        
+        dto.setQuestions(questionsDTO);
+        return dto;
+    }
+
 }

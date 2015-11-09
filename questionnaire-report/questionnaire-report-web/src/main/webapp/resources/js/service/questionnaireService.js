@@ -14,6 +14,12 @@ angular.module('questionnaireService', [])
                                     url: '../api/questionnaire/add',
                                     responseType: 'json'
                                 },
+                                getById: {
+                                    method: 'GET',
+                                    url: '../api/questionnaire/get/:questionnaireId',
+                                    params: {questionnaireId: '@questionnaireId'},
+                                    responseType: 'json'
+                                },
                             }
                     )
                 };

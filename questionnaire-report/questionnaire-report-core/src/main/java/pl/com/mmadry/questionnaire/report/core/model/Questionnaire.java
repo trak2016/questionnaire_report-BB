@@ -35,7 +35,7 @@ public class Questionnaire extends BaseEntity{
     @Column(name = "description")
     private String description;
     
-    @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @Cascade({org.hibernate.annotations.CascadeType.MERGE, org.hibernate.annotations.CascadeType.PERSIST})
     @OneToMany(mappedBy = "questionnaire", orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
     

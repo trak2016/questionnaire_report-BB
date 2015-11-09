@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,7 @@ public class QuestionnaireController {
     public static final String URL = "/api/questionnaire";
     public static final String ALL = "/all";
     public static final String ADD = "/add";
+    public static final String GET_BY_ID = "/get/{id}";
     
     @Autowired
     private QuestionnaireHelper questionnaireHelper;
@@ -37,6 +39,11 @@ public class QuestionnaireController {
     public ResponseEntity<?> addNewQuestionnaire(@RequestBody QuestionnaireDTO dto) {
         questionnaireHelper.addNewQuestionnaire(dto);
         return new ResponseEntity<>( HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = QuestionnaireController.GET_BY_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(questionnaireHelper.getById(id), HttpStatus.OK);
     }
     
 }

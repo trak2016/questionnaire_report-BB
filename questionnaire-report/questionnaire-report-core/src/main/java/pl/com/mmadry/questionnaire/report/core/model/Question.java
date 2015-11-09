@@ -24,9 +24,8 @@ import pl.com.mmadry.questionnaire.report.core.enums.QuestionType;
 @Table(name = "question", schema = "public")
 public class Question extends BaseEntity{
     
-    @Column()
-    @Enumerated(EnumType.STRING)
-    private QuestionType type;
+    @Column(name = "type")
+    private String type;
     
     @Column(name = "text")
     private String text;
@@ -35,7 +34,7 @@ public class Question extends BaseEntity{
     @JoinColumn(name = "questionnaire_id")
     private Questionnaire questionnaire;
     
-    @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    @Cascade({org.hibernate.annotations.CascadeType.MERGE, org.hibernate.annotations.CascadeType.PERSIST})
     @OneToMany(fetch = FetchType.LAZY , mappedBy = "question" , orphanRemoval = true)
     private List<Answer> answers = new ArrayList<>();
     
@@ -50,11 +49,11 @@ public class Question extends BaseEntity{
         this.text = text;
     }
 
-    public QuestionType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(QuestionType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

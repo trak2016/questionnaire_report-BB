@@ -31,7 +31,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 data: {pageTitle: 'Ankiety zatwierdzone'}
             })
             .state('questionnaire.create', {
-                url: "/create",
+                url: "/create/:questionnaireId",
                 templateUrl: "views/questionnaire/create.html",
                 controller: "questionnaireCreateController",
                 data: {pageTitle: 'Edytor ankiety'},
