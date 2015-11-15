@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.com.mmadry.questionnaire.report.core.enums.QuestionType;
+import pl.com.mmadry.questionnaire.report.core.enums.QuestionnaireType;
 import pl.com.mmadry.questionnaire.report.core.model.Answer;
 import pl.com.mmadry.questionnaire.report.core.model.Question;
 import pl.com.mmadry.questionnaire.report.core.model.Questionnaire;
@@ -35,17 +36,14 @@ public class QuestionnaireHelper extends BaseHelper {
     @Autowired
     private AnswerService answerService;
 
-    public List<QuestionnaireDTO> getAll() {
-        List<QuestionnaireDTO> questionnaireDTOs = new ArrayList<>();
-        List<Questionnaire> questionnaires = questionnaireService.getElements();
-
-        for (Questionnaire questionnaire : questionnaires) {
-            QuestionnaireAssemblerParameters parameters = new QuestionnaireAssemblerParameters.Builder()
-                    .dbo(questionnaire)
-                    .build();
-            questionnaireDTOs.add(questionnaireAssembler.assemblyToDto(parameters));
-        }
-        return questionnaireDTOs;
+    public List<QuestionnaireDTO> getTemplates() {
+        List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.TEMPLATE);
+        return prepareDTOs(questionnaires);
+    }
+    
+    public List<QuestionnaireDTO> getReadys() {
+        List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.READY);
+        return prepareDTOs(questionnaires);
     }
 
     public void addNewQuestionnaire(QuestionnaireDTO dto) {
@@ -152,9 +150,20 @@ public class QuestionnaireHelper extends BaseHelper {
             questionDTO.setAnswers(answersDTO);
             questionsDTO.add(questionDTO);
         }
-        
+
         dto.setQuestions(questionsDTO);
         return dto;
+    }
+
+    private List<QuestionnaireDTO> prepareDTOs(List<Questionnaire> dbos) {
+        List<QuestionnaireDTO> questionnaireDTOs = new ArrayList<>();
+        for (Questionnaire questionnaire : dbos) {
+            QuestionnaireAssemblerParameters parameters = new QuestionnaireAssemblerParameters.Builder()
+                    .dbo(questionnaire)
+                    .build();
+            questionnaireDTOs.add(questionnaireAssembler.assemblyToDto(parameters));
+        }
+        return questionnaireDTOs;
     }
 
 }

@@ -23,16 +23,22 @@ public class QuestionnaireController {
     
     protected Logger logger = Logger.getLogger(getClass());
     public static final String URL = "/api/questionnaire";
-    public static final String ALL = "/all";
+    public static final String ALL_TEMPLATE = "/allTemplate";
+    public static final String ALL_READY = "/allReady";
     public static final String ADD = "/add";
     public static final String GET_BY_ID = "/get/{id}";
     
     @Autowired
     private QuestionnaireHelper questionnaireHelper;
     
-    @RequestMapping(value = QuestionnaireController.ALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getAll() {
-        return new ResponseEntity<>(questionnaireHelper.getAll(), HttpStatus.OK);
+    @RequestMapping(value = QuestionnaireController.ALL_TEMPLATE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllTemplate() {
+        return new ResponseEntity<>(questionnaireHelper.getTemplates(), HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = QuestionnaireController.ALL_READY, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllReady() {
+        return new ResponseEntity<>(questionnaireHelper.getReadys(), HttpStatus.OK);
     }
     
     @RequestMapping(value = QuestionnaireController.ADD, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

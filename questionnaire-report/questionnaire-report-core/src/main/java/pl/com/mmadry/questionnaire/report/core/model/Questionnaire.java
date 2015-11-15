@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -13,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
+import pl.com.mmadry.questionnaire.report.core.enums.QuestionnaireType;
 
 /**
  *
@@ -26,8 +29,8 @@ public class Questionnaire extends BaseEntity{
     @Column(name = "title")
     private String title;
     
-    @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private QuestionnaireType status;
     
     @Column(name = "target")
     private String targer;
@@ -61,7 +64,7 @@ public class Questionnaire extends BaseEntity{
     private Term term;
 
     public Questionnaire() {
-        this.status = "template";
+        this.status = QuestionnaireType.TEMPLATE;
     }
 
     public List<Task> getTasks() {
@@ -97,14 +100,6 @@ public class Questionnaire extends BaseEntity{
         this.questions.addAll(questions);
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Term getTerm() {
         return term;
     }
@@ -127,6 +122,14 @@ public class Questionnaire extends BaseEntity{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public QuestionnaireType getStatus() {
+        return status;
+    }
+
+    public void setStatus(QuestionnaireType status) {
+        this.status = status;
     }
      
 }

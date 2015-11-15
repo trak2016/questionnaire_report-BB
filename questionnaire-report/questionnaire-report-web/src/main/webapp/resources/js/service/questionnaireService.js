@@ -3,9 +3,15 @@ angular.module('questionnaireService', [])
                 return {
                     api: $resource('../api/questionnaire', {},
                             {
-                                getAll: {
+                                getAllTemplate: {
                                     method: 'GET',
-                                    url: '../api/questionnaire/all',
+                                    url: '../api/questionnaire/allTemplate',
+                                    isArray: true,
+                                    responseType: 'json'
+                                },
+                                getAllReady: {
+                                    method: 'GET',
+                                    url: '../api/questionnaire/allReady',
                                     isArray: true,
                                     responseType: 'json'
                                 },
