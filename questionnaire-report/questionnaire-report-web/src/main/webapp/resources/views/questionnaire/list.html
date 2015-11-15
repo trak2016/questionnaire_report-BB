@@ -31,6 +31,7 @@
                                     <th>Tytuł</th>
                                     <th>Cel</th>
                                     <th>Opis</th>
+                                    <th>Indeks zgodności</th>
                                     <th style="text-align: right;width: 100px;"></th>
                                 </tr>
                             </thead>
@@ -39,6 +40,7 @@
                                     <td>{{questionnaire.title}}</td>
                                     <td>{{questionnaire.targer}}</td>
                                     <td>{{questionnaire.description}}</td>
+                                    <th ng-style="questionnaire.correct == true ? {'color': '#339900'} : {'color': '#ff0033'}">{{questionnaire.indexCal}}%</th>
                                     <td style="text-align: right;width: 100px;"><button ng-click="editQuestionnaire(questionnaire.id)" class="btn btn-primary btn-xs">Edytuj</button></td>
                                 </tr>
                             </tbody>

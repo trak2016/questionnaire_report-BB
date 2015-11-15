@@ -16,6 +16,9 @@ public class QuestionnaireDTO implements Serializable {
     private String targer;
     private String description;
     private List<QuestionDTO> questions = new LinkedList<>();
+    private Boolean correct;
+    private Integer indexCal;
+
 
     public Long getId() {
         return id;
@@ -68,6 +71,22 @@ public class QuestionnaireDTO implements Serializable {
     @Override
     public String toString() {
         return "QuestionnaireDTO{" + "title=" + title + ", status=" + status + ", targer=" + targer + ", description=" + description + ", questions=" + questions + '}';
+    }
+
+    public Boolean getCorrect() {
+        return correct;
+    }
+
+    public void setCorrect(Boolean correct) {
+        this.correct = correct;
+    }
+
+    public Integer getIndexCal() {
+        return indexCal;
+    }
+
+    public void setIndexCal(Integer indexCal) {
+        this.indexCal = indexCal;
     }
 
 }

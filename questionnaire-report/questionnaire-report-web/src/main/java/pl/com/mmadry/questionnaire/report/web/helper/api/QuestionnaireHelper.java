@@ -35,6 +35,8 @@ public class QuestionnaireHelper extends BaseHelper {
     private QuestionService questionService;
     @Autowired
     private AnswerService answerService;
+    @Autowired
+    private IndexHelper indexHelper;
 
     public List<QuestionnaireDTO> getTemplates() {
         List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.TEMPLATE);
@@ -94,6 +96,7 @@ public class QuestionnaireHelper extends BaseHelper {
                 answer.setText(answerDTO.getText());
                 answer.setQuestion(question);
                 answers.add(answer);
+                j++;
             }
 
             question.setAnswers(answers);
@@ -103,6 +106,11 @@ public class QuestionnaireHelper extends BaseHelper {
             questions.add(question);
         }
         questionnaire.setQuestions(questions);
+        
+        IndexHelper.IndexInfo info = indexHelper.calculateIndex(questionnaire);
+        questionnaire.setCorrect(info.allTestOK);
+        questionnaire.setIndexCal(info.index);
+        
         questionnaireService.add(questionnaire);
 
     }
@@ -128,6 +136,8 @@ public class QuestionnaireHelper extends BaseHelper {
         dto.setDescription(questionnaire.getDescription());
         dto.setTarger(questionnaire.getTarger());
         dto.setTitle(questionnaire.getTitle());
+        dto.setCorrect(questionnaire.getCorrect());
+        dto.setIndexCal(questionnaire.getIndexCal());
 
         List<QuestionDTO> questionsDTO = new LinkedList<>();
         for (Question question : questionnaire.getQuestions()) {

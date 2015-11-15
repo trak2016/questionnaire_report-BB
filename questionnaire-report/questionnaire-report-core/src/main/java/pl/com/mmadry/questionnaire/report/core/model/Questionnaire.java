@@ -62,6 +62,12 @@ public class Questionnaire extends BaseEntity{
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "term_id")
     private Term term;
+    
+    @Column
+    private Boolean correct;
+    
+    @Column(name = "index_cal")
+    private Integer indexCal;
 
     public Questionnaire() {
         this.status = QuestionnaireType.TEMPLATE;
@@ -131,5 +137,23 @@ public class Questionnaire extends BaseEntity{
     public void setStatus(QuestionnaireType status) {
         this.status = status;
     }
+
+    public Boolean getCorrect() {
+        return correct;
+    }
+
+    public void setCorrect(Boolean correct) {
+        this.correct = correct;
+    }
+
+    public Integer getIndexCal() {
+        return indexCal;
+    }
+
+    public void setIndexCal(Integer indexCal) {
+        this.indexCal = indexCal;
+    }
+    
+    
      
 }

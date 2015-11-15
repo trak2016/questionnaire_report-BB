@@ -38,6 +38,9 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                             .withOption('defaultContent', ""),
                     DTColumnDefBuilder
                             .newColumnDef(3)
+                            .withOption('defaultContent', ""),
+                    DTColumnDefBuilder
+                            .newColumnDef(4)
                             .notSortable()
                             .withOption('defaultContent', "")
                 ];
@@ -45,9 +48,9 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                 $scope.addQuestionnaire = function () {
                     $state.go('questionnaire.create');
                 };
-                
+
                 $scope.editQuestionnaire = function (id) {
-                    $state.go('questionnaire.create', {questionnaireId : id});
+                    $state.go('questionnaire.create', {questionnaireId: id});
                 };
 
 
@@ -126,6 +129,7 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                             var v = $scope.questionnaire.questions[$scope.editQuestionIdx];
                             v.text = result.question.text;
                             v.type = result.question.type;
+                            v.answers = result.question.answers;
                             toastr.success('Edycja przebiegła pomyślnie.', 'Powodzenie!');
                         }
                     }, function () {
@@ -226,6 +230,10 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                             .withOption('defaultContent', ""),
                     DTColumnDefBuilder
                             .newColumnDef(2)
+                            .withOption('defaultContent', ""),
+                    DTColumnDefBuilder
+                            .newColumnDef(3)
+                            .notSortable()
                             .withOption('defaultContent', ""),
                     DTColumnDefBuilder
                             .newColumnDef(3)
