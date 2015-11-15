@@ -57,6 +57,15 @@
             <property name="paramName" value="language"/>
         </bean>
     </mvc:interceptors>
+    
+    <bean class="pl.com.mmadry.questionnaire.report.web.service.CacheServiceImpl" id="cacheService"
+          init-method="init"
+          scope="session">
+        <aop:scoped-proxy proxy-target-class="false"/>
+        <property name="appName" value="${appName}"/>
+        <property name="serverUrl" value="${serverUrl}"/>
+        <property name="supportEmailAddress" value="${supportEmailAddress}"/>
+    </bean>
 
 
 </beans>

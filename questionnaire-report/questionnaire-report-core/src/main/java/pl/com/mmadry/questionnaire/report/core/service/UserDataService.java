@@ -16,4 +16,11 @@ public interface UserDataService extends CrudService<UserData, Long> {
     UserData findByToken(String token);
     
     UserData findByEmail(String email);
+    
+    String getLoggedUserLogin();
+
+    UserData getLoggedUserData();
+    
+    UserData findByUsername(String username);
+
 }

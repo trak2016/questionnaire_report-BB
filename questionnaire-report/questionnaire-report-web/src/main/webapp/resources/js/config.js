@@ -4,7 +4,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
     IdleProvider.idle(5); // in seconds
     IdleProvider.timeout(120); // in seconds
 
-    $urlRouterProvider.otherwise("questionnaire/list");
+    $urlRouterProvider.otherwise("profil/profil");
 
     $ocLazyLoadProvider.config({
         // Set to true if you want to see what and when is dynamically loaded
@@ -98,6 +98,14 @@ angular
                 timeOut: 5000
             });
         })
-        .run(function ($rootScope, $state) {
+        .run(function ($rootScope, $state, AuthService, $q) {
             $rootScope.$state = $state;
+            $rootScope.syn = $q.defer();
+            $rootScope.SERVER_DEF_URL = "http://localhost:8085/questionnaire-report";
+            $rootScope.BASE_URL = "/questionnaire-report";
+
+            AuthService.readUser.get().$promise.then(function (result) {
+                AuthService.setUser(result);
+                $rootScope.syn.resolve();
+            });
         });

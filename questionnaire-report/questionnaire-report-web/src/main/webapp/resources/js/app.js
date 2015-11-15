@@ -17,7 +17,9 @@
         'archiveController',
         'taskController',
         // services
-        'questionnaireService'
+        'authService',
+        'questionnaireService',
+        'profilService'
         // directives
         
         // Idle timer

@@ -4,14 +4,18 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.com.mmadry.questionnaire.report.core.enums.Role;
+import pl.com.mmadry.questionnaire.report.core.exception.NoAuthInfoAvailableException;
 import pl.com.mmadry.questionnaire.report.core.model.UserData;
 import pl.com.mmadry.questionnaire.report.core.repository.UserDataRepository;
 
@@ -113,5 +117,45 @@ public class UserDataServiceImpl implements UserDataService {
         }
         return passwordPlainText;
     }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public String getLoggedUserLogin() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null) {
+            Object principal = auth.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                return userDetails.getUsername();
+
+            }
+        }
+
+        throw new NoAuthInfoAvailableException("Brak informacji o zalogowanym użytkowniku");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserData getLoggedUserData() {
+
+        String login = getLoggedUserLogin();
+
+        UserData userData = findByUsername(login);
+
+        if (userData == null) {
+            throw new NoAuthInfoAvailableException("Brak informacji o zalogowanym użytkowniku");
+        }
+
+        return userData;
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public UserData findByUsername(String username) {
+        return userDataRepository.findByUsername(username);
+    }
+
 
 }
