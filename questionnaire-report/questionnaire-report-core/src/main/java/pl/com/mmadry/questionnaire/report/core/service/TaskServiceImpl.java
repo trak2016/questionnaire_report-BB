@@ -54,5 +54,11 @@ public class TaskServiceImpl implements TaskService{
     public Task save(Task element) {
         return taskRepository.save(element);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Task getByUserDataIdAndQuestionnaireId(Long userDataId, Long questionnaireId) {
+        return taskRepository.findByUserDataIdAndQuestionnaireId(userDataId, questionnaireId);
+    }
     
 }

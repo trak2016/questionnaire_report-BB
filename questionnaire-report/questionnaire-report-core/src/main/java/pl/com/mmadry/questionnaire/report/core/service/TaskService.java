@@ -8,4 +8,6 @@ import pl.com.mmadry.questionnaire.report.core.model.Task;
  */
 public interface TaskService extends CrudService<Task, Long>{
     
+    Task getByUserDataIdAndQuestionnaireId(Long userDataId, Long questionnaireId);
+    
 }

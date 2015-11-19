@@ -20,36 +20,43 @@ import pl.com.mmadry.questionnaire.report.web.helper.api.QuestionnaireHelper;
 @RestController
 @RequestMapping(QuestionnaireController.URL)
 public class QuestionnaireController {
-    
+
     protected Logger logger = Logger.getLogger(getClass());
     public static final String URL = "/api/questionnaire";
     public static final String ALL_TEMPLATE = "/allTemplate";
     public static final String ALL_READY = "/allReady";
     public static final String ADD = "/add";
     public static final String GET_BY_ID = "/get/{id}";
-    
+    public static final String START_BY_ID = "/start/{id}";
+
     @Autowired
     private QuestionnaireHelper questionnaireHelper;
-    
+
     @RequestMapping(value = QuestionnaireController.ALL_TEMPLATE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllTemplate() {
         return new ResponseEntity<>(questionnaireHelper.getTemplates(), HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = QuestionnaireController.ALL_READY, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllReady() {
         return new ResponseEntity<>(questionnaireHelper.getReadys(), HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = QuestionnaireController.ADD, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addNewQuestionnaire(@RequestBody QuestionnaireDTO dto) {
         questionnaireHelper.addNewQuestionnaire(dto);
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = QuestionnaireController.GET_BY_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(questionnaireHelper.getById(id), HttpStatus.OK);
     }
-    
+
+    @RequestMapping(value = QuestionnaireController.START_BY_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> startById(@PathVariable("id") Long id) {
+        questionnaireHelper.startById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

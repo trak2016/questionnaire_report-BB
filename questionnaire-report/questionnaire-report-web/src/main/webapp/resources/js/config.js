@@ -39,6 +39,11 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                     loadPlugin: function ($ocLazyLoad) {
                         return $ocLazyLoad.load([
                             {
+                            insertBefore: '#loadBefore',
+                                name: 'angular.chosen',
+                                files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/angular-chosen/angular-chosen.js']
+                            },
+                            {
                                 name: 'ui.sortable',
                                 files: ['js/plugins/ui-sortable/sortable.js']
                             },

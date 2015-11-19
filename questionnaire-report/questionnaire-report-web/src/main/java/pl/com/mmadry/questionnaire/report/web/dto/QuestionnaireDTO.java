@@ -1,6 +1,8 @@
 package pl.com.mmadry.questionnaire.report.web.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +20,8 @@ public class QuestionnaireDTO implements Serializable {
     private List<QuestionDTO> questions = new LinkedList<>();
     private Boolean correct;
     private Integer indexCal;
+    private Date timeEnd;
+    private List<UserdataDTO> users = new ArrayList<>();
 
 
     public Long getId() {
@@ -87,6 +91,22 @@ public class QuestionnaireDTO implements Serializable {
 
     public void setIndexCal(Integer indexCal) {
         this.indexCal = indexCal;
+    }
+
+    public Date getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(Date timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public List<UserdataDTO> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserdataDTO> users) {
+        this.users = users;
     }
 
 }

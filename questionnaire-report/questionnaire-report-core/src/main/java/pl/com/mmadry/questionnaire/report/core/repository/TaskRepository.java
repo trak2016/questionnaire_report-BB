@@ -9,4 +9,6 @@ import pl.com.mmadry.questionnaire.report.core.model.Task;
  */
 public interface TaskRepository extends JpaRepository<Task, Long>{
     
+    Task findByUserDataIdAndQuestionnaireId(Long userDataId, Long questionnaireId);
+    
 }

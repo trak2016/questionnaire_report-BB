@@ -1,39 +1,39 @@
 package pl.com.mmadry.questionnaire.report.core.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import pl.com.mmadry.questionnaire.report.core.enums.TaskType;
 
 /**
  *
  * @author Mateusz Mądry <mmadry@soft-project.pl>
  */
-
 @Entity
 @SuppressWarnings("PersistenceUnitPresent")
 @Table(name = "task", schema = "public")
-public class Task extends BaseEntity{
-    
-    
+public class Task extends BaseEntity {
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_data_id")
     private UserData userData;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "questionnaire_id")
     private Questionnaire questionnaire;
-    
-    @Column(name = "status")
-    private String status;
 
-    public String getStatus() {
+    @Enumerated(EnumType.STRING)
+    private TaskType status;
+
+    public TaskType getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TaskType status) {
         this.status = status;
     }
 
@@ -53,6 +53,4 @@ public class Task extends BaseEntity{
         this.questionnaire = questionnaire;
     }
 
-    
-    
 }

@@ -53,13 +53,49 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                     $state.go('questionnaire.create', {questionnaireId: id});
                 };
 
+                $scope.startQuestionnaire = function (id) {
+                    swal({
+                        title: "",
+                        text: "Na pewno chcesz wystartować ankietę?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Tak",
+                        cancelButtonText: "Nie",
+                        closeOnConfirm: true
+                    }, function () {
+                        QuestionnaireService.api.startQuestionnaire({'id': id}).$promise.then(function (result) {
+                            $state.go('questionnaire.listDone');
+                            toastr.success('Ankieta została wystartowana.', 'Powodzenie!');
+                        });
+                    });
+                };
+
 
             }])
-        .controller('questionnaireCreateController', ['$scope', '$rootScope', '$state', '$http', 'toastr', 'QuestionnaireService', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$modal', '$stateParams',
-            function ($scope, $rootScope, $state, $http, toastr, QuestionnaireService, DTOptionsBuilder, DTColumnDefBuilder, $modal, $stateParams) {
+        .controller('questionnaireCreateController', ['$scope', '$rootScope', '$state', '$http', 'toastr', 'QuestionnaireService', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$modal', '$stateParams', 'UserService',
+            function ($scope, $rootScope, $state, $http, toastr, QuestionnaireService, DTOptionsBuilder, DTColumnDefBuilder, $modal, $stateParams, UserService) {
 
                 $scope.questionnaire = {};
                 $scope.questionnaire.questions = [];
+                $scope.questionnaire.users = [];
+                $scope.newusers = [];
+
+                UserService.api.getAll().$promise.then(function (result) {
+                    $scope.allUsers = result;
+                });
+
+                $scope.addUsers = function () {
+                    $scope.questionnaire.users = $scope.questionnaire.users.concat($scope.newusers);
+                    $scope.newusers = [];
+                };
+                $scope.removeUser = function (user) {
+                    var idx = $scope.questionnaire.users.indexOf(user);
+                    if (idx >= 0) {
+                        $scope.questionnaire.users.splice(idx, 1);
+                        toastr.success('Użytkownik został usunięty.', 'Powodzenie!');
+                    }
+                };
 
                 if ($stateParams.questionnaireId !== null && $stateParams.questionnaireId !== undefined) {
                     QuestionnaireService.api.getById({"questionnaireId": $stateParams.questionnaireId}).$promise.then(function (result) {

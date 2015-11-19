@@ -19,7 +19,8 @@
         // services
         'authService',
         'questionnaireService',
-        'profilService'
+        'profilService',
+        'userService'
         // directives
         
         // Idle timer

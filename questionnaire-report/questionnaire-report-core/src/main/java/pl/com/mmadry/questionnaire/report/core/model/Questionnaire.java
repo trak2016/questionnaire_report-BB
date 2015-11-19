@@ -1,6 +1,7 @@
 package pl.com.mmadry.questionnaire.report.core.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.Cascade;
 import pl.com.mmadry.questionnaire.report.core.enums.QuestionnaireType;
 
@@ -24,24 +27,24 @@ import pl.com.mmadry.questionnaire.report.core.enums.QuestionnaireType;
 @Entity
 @SuppressWarnings("PersistenceUnitPresent")
 @Table(name = "questionnaire", schema = "public")
-public class Questionnaire extends BaseEntity{
-    
+public class Questionnaire extends BaseEntity {
+
     @Column(name = "title")
     private String title;
-    
+
     @Enumerated(EnumType.STRING)
     private QuestionnaireType status;
-    
+
     @Column(name = "target")
     private String targer;
-    
+
     @Column(name = "description")
     private String description;
-    
+
     @Cascade({org.hibernate.annotations.CascadeType.MERGE, org.hibernate.annotations.CascadeType.PERSIST})
     @OneToMany(mappedBy = "questionnaire", orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
-    
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "questionnaire_userdata",
@@ -53,19 +56,21 @@ public class Questionnaire extends BaseEntity{
             }
     )
     private List<UserData> userDatas = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "questionnaire")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+
+    @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
-    
-    @OneToOne(fetch = FetchType.LAZY)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    @JoinColumn(name = "term_id")
-    private Term term;
-    
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "timeEnd")
+    private Date timeEnd;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "timeReminder")
+    private Date timeReminder;
+
     @Column
     private Boolean correct;
-    
+
     @Column(name = "index_cal")
     private Integer indexCal;
 
@@ -78,7 +83,8 @@ public class Questionnaire extends BaseEntity{
     }
 
     public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+        this.tasks.clear();
+        this.tasks.addAll(tasks);
     }
 
     public String getTitle() {
@@ -104,14 +110,6 @@ public class Questionnaire extends BaseEntity{
     public void setQuestions(List<Question> questions) {
         this.questions.clear();
         this.questions.addAll(questions);
-    }
-
-    public Term getTerm() {
-        return term;
-    }
-
-    public void setTerm(Term term) {
-        this.term = term;
     }
 
     public List<UserData> getUserDatas() {
@@ -153,7 +151,20 @@ public class Questionnaire extends BaseEntity{
     public void setIndexCal(Integer indexCal) {
         this.indexCal = indexCal;
     }
-    
-    
-     
+
+    public Date getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(Date timeEnd) {
+        this.timeEnd = timeEnd;
+    }
+
+    public Date getTimeReminder() {
+        return timeReminder;
+    }
+
+    public void setTimeReminder(Date timeReminder) {
+        this.timeReminder = timeReminder;
+    }
 }

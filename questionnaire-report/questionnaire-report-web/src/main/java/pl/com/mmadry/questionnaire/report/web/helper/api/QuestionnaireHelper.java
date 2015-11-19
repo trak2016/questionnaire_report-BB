@@ -7,17 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.com.mmadry.questionnaire.report.core.enums.QuestionType;
 import pl.com.mmadry.questionnaire.report.core.enums.QuestionnaireType;
+import pl.com.mmadry.questionnaire.report.core.enums.TaskType;
 import pl.com.mmadry.questionnaire.report.core.model.Answer;
 import pl.com.mmadry.questionnaire.report.core.model.Question;
 import pl.com.mmadry.questionnaire.report.core.model.Questionnaire;
+import pl.com.mmadry.questionnaire.report.core.model.Task;
 import pl.com.mmadry.questionnaire.report.core.service.AnswerService;
 import pl.com.mmadry.questionnaire.report.core.service.QuestionService;
 import pl.com.mmadry.questionnaire.report.core.service.QuestionnaireService;
+import pl.com.mmadry.questionnaire.report.core.service.TaskService;
+import pl.com.mmadry.questionnaire.report.core.service.UserDataService;
 import pl.com.mmadry.questionnaire.report.web.assembler.QuestionnaireAssembler;
 import pl.com.mmadry.questionnaire.report.web.assembler.parameters.QuestionnaireAssemblerParameters;
 import pl.com.mmadry.questionnaire.report.web.dto.AnswerDTO;
 import pl.com.mmadry.questionnaire.report.web.dto.QuestionDTO;
 import pl.com.mmadry.questionnaire.report.web.dto.QuestionnaireDTO;
+import pl.com.mmadry.questionnaire.report.web.dto.UserdataDTO;
 import pl.com.mmadry.questionnaire.report.web.helper.BaseHelper;
 
 /**
@@ -37,14 +42,18 @@ public class QuestionnaireHelper extends BaseHelper {
     private AnswerService answerService;
     @Autowired
     private IndexHelper indexHelper;
+    @Autowired
+    private UserDataService userDataService;
+    @Autowired
+    private TaskService taskService;
 
     public List<QuestionnaireDTO> getTemplates() {
         List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.TEMPLATE);
         return prepareDTOs(questionnaires);
     }
-    
+
     public List<QuestionnaireDTO> getReadys() {
-        List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.READY);
+        List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.ACTIVE);
         return prepareDTOs(questionnaires);
     }
 
@@ -65,6 +74,7 @@ public class QuestionnaireHelper extends BaseHelper {
         questionnaire.setTitle(dto.getTitle());
         questionnaire.setTarger(dto.getTarger());
         questionnaire.setDescription(dto.getDescription());
+        questionnaire.setTimeEnd(dto.getTimeEnd());
 
         questionnaireService.add(questionnaire);
 
@@ -106,11 +116,32 @@ public class QuestionnaireHelper extends BaseHelper {
             questions.add(question);
         }
         questionnaire.setQuestions(questions);
-        
+
+        List<Task> tasks = new ArrayList<>();
+        for (UserdataDTO udDTO : dto.getUsers()) {
+            if (dto.getId() == null) {
+                Task task = new Task();
+                task.setQuestionnaire(questionnaire);
+                task.setUserData(userDataService.getElement(udDTO.getId()));
+                task.setStatus(TaskType.WAIT);
+                tasks.add(task);
+            } else {
+                Task task = taskService.getByUserDataIdAndQuestionnaireId(udDTO.getId(), questionnaire.getId());
+                if (task == null) {
+                    task = new Task();
+                    task.setQuestionnaire(questionnaire);
+                    task.setUserData(userDataService.getElement(udDTO.getId()));
+                    task.setStatus(TaskType.WAIT);
+                    tasks.add(task);
+                }
+            }
+        }
+        questionnaire.setTasks(tasks);
+
         IndexHelper.IndexInfo info = indexHelper.calculateIndex(questionnaire);
         questionnaire.setCorrect(info.allTestOK);
         questionnaire.setIndexCal(info.index);
-        
+
         questionnaireService.add(questionnaire);
 
     }
@@ -138,6 +169,7 @@ public class QuestionnaireHelper extends BaseHelper {
         dto.setTitle(questionnaire.getTitle());
         dto.setCorrect(questionnaire.getCorrect());
         dto.setIndexCal(questionnaire.getIndexCal());
+        dto.setTimeEnd(questionnaire.getTimeEnd());
 
         List<QuestionDTO> questionsDTO = new LinkedList<>();
         for (Question question : questionnaire.getQuestions()) {
@@ -161,6 +193,17 @@ public class QuestionnaireHelper extends BaseHelper {
             questionsDTO.add(questionDTO);
         }
 
+        List<UserdataDTO> userdatasDTO = new ArrayList<>();
+        for (Task task : questionnaire.getTasks()) {
+            UserdataDTO udDTO = new UserdataDTO();
+            udDTO.setEmail(task.getUserData().getEmail());
+            udDTO.setId(task.getUserData().getId());
+            udDTO.setName(task.getUserData().getName());
+            udDTO.setSurname(task.getUserData().getSurname());
+            userdatasDTO.add(udDTO);
+        }
+        dto.setUsers(userdatasDTO);
+
         dto.setQuestions(questionsDTO);
         return dto;
     }
@@ -174,6 +217,12 @@ public class QuestionnaireHelper extends BaseHelper {
             questionnaireDTOs.add(questionnaireAssembler.assemblyToDto(parameters));
         }
         return questionnaireDTOs;
+    }
+
+    public void startById(Long id) {
+        Questionnaire q = questionnaireService.getElement(id);
+        q.setStatus(QuestionnaireType.ACTIVE);
+        questionnaireService.update(q);
     }
 
 }
