@@ -30,6 +30,12 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 controller: "questionnaireDoneController",
                 data: {pageTitle: 'Ankiety zatwierdzone'}
             })
+            .state('questionnaire.listFinish', {
+                url: "/listDone",
+                templateUrl: "views/questionnaire/listFinish.html",
+                controller: "questionnaireFinishController",
+                data: {pageTitle: 'Ankiety zakończone'}
+            })
             .state('questionnaire.create', {
                 url: "/create/:questionnaireId",
                 templateUrl: "views/questionnaire/create.html",

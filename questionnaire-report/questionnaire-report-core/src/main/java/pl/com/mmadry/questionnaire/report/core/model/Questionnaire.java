@@ -60,11 +60,11 @@ public class Questionnaire extends BaseEntity {
     @OneToMany(mappedBy = "questionnaire", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Task> tasks = new ArrayList<>();
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timeEnd")
     private Date timeEnd;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timeReminder")
     private Date timeReminder;
 

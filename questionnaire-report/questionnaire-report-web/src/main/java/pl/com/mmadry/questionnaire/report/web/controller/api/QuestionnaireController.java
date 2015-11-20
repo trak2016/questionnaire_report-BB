@@ -25,6 +25,7 @@ public class QuestionnaireController {
     public static final String URL = "/api/questionnaire";
     public static final String ALL_TEMPLATE = "/allTemplate";
     public static final String ALL_READY = "/allReady";
+    public static final String ALL_FINISH = "/allFinish";
     public static final String ADD = "/add";
     public static final String GET_BY_ID = "/get/{id}";
     public static final String START_BY_ID = "/start/{id}";
@@ -41,6 +42,12 @@ public class QuestionnaireController {
     public ResponseEntity<?> getAllReady() {
         return new ResponseEntity<>(questionnaireHelper.getReadys(), HttpStatus.OK);
     }
+    
+    @RequestMapping(value = QuestionnaireController.ALL_FINISH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllFinish() {
+        return new ResponseEntity<>(questionnaireHelper.getFinish(), HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = QuestionnaireController.ADD, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addNewQuestionnaire(@RequestBody QuestionnaireDTO dto) {

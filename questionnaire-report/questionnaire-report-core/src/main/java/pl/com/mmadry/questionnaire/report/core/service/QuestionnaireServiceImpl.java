@@ -1,5 +1,6 @@
 package pl.com.mmadry.questionnaire.report.core.service;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,18 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
     @Transactional(readOnly = true)
     public List<Questionnaire> getByStatus(QuestionnaireType ststus) {
        return questionnaireRepository.findByStatus(ststus);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Questionnaire> getByStatusAndDateEndBefore(QuestionnaireType ststus, Date endTime) {
+        return questionnaireRepository.findByStatusAndTimeEndBefore(ststus, endTime);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Questionnaire> getByStatusAndDateEndAfter(QuestionnaireType ststus, Date endTime) {
+        return questionnaireRepository.findByStatusAndTimeEndAfter(ststus, endTime);
     }
     
 }

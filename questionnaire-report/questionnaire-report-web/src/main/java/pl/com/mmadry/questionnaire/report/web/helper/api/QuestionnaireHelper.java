@@ -1,6 +1,9 @@
 package pl.com.mmadry.questionnaire.report.web.helper.api;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +51,18 @@ public class QuestionnaireHelper extends BaseHelper {
     private TaskService taskService;
 
     public List<QuestionnaireDTO> getTemplates() {
+
         List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.TEMPLATE);
         return prepareDTOs(questionnaires);
     }
 
     public List<QuestionnaireDTO> getReadys() {
-        List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.ACTIVE);
+        List<Questionnaire> questionnaires = questionnaireService.getByStatusAndDateEndAfter(QuestionnaireType.ACTIVE, new Date());
+        return prepareDTOs(questionnaires);
+    }
+
+    public List<QuestionnaireDTO> getFinish() {
+        List<Questionnaire> questionnaires = questionnaireService.getByStatusAndDateEndBefore(QuestionnaireType.ACTIVE, new Date());
         return prepareDTOs(questionnaires);
     }
 
@@ -74,7 +83,14 @@ public class QuestionnaireHelper extends BaseHelper {
         questionnaire.setTitle(dto.getTitle());
         questionnaire.setTarger(dto.getTarger());
         questionnaire.setDescription(dto.getDescription());
-        questionnaire.setTimeEnd(dto.getTimeEnd());
+        
+        //date end
+        Calendar c = Calendar.getInstance();
+        c.setTime(dto.getTimeEnd());
+        c.add(Calendar.DATE, 1);
+        c.add(Calendar.HOUR, -1);
+        c.add(Calendar.SECOND, -1);
+        questionnaire.setTimeEnd(c.getTime());
 
         questionnaireService.add(questionnaire);
 

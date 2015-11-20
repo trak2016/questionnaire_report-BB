@@ -1,6 +1,7 @@
 package pl.com.mmadry.questionnaire.report.web.helper.api;
 
 import com.google.common.collect.ImmutableMap;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import pl.com.mmadry.questionnaire.report.core.model.Answer;
 import pl.com.mmadry.questionnaire.report.core.model.Question;
 import pl.com.mmadry.questionnaire.report.core.model.Questionnaire;
+import pl.com.mmadry.questionnaire.report.core.model.Task;
 import pl.com.mmadry.questionnaire.report.web.helper.BaseHelper;
 
 /**
@@ -27,11 +29,13 @@ public class IndexHelper extends BaseHelper {
     }
 
     private Map<String, Integer> weight = ImmutableMap.<String, Integer>builder()
-            .put("W1", 30) //title
+            .put("W1", 10) //title
             .put("W2", 10) //targer
             .put("W3", 10) //description
             .put("W4", 20) // one question
-            .put("W5", 30) // all questions correct
+            .put("W5", 20) // all questions correct
+            .put("W6", 10) // date end
+            .put("W7", 20) // users
 
             .build();
 
@@ -47,14 +51,18 @@ public class IndexHelper extends BaseHelper {
         }
         returnValue.index = suma;
         returnValue.allTestOK = false;
-        if (resultTest.get("A1") == 1 && resultTest.get("A4") == 1 && resultTest.get("A5") == 1) {
+        if (resultTest.get("A1") == 1 && resultTest.get("A4") == 1 
+                && resultTest.get("A5") == 1 && resultTest.get("A6") == 1 
+                && resultTest.get("A7") == 1) {
             returnValue.index = suma;
             returnValue.allTestOK = true;
             return returnValue;
 
         }
 
-        if (resultTest.get("A1") == 0 || resultTest.get("A4") == 0 || resultTest.get("A5") == 0) {
+        if (resultTest.get("A1") == 0 || resultTest.get("A4") == 0 
+                || resultTest.get("A5") == 0 || resultTest.get("A6") == 0 
+                || resultTest.get("A7") == 0) {
             returnValue.allTestOK = false;
             if (suma > 51) {
                 returnValue.index = 40;
@@ -76,6 +84,8 @@ public class IndexHelper extends BaseHelper {
         A3(questionnaire.getDescription());
         A4(question);
         A5(question);
+        A6(questionnaire.getTimeEnd());
+        A7(questionnaire.getTasks());
 
     }
 
@@ -176,6 +186,22 @@ public class IndexHelper extends BaseHelper {
             resultTest.put("A5", 1);
         } else {
             resultTest.put("A5", 0);
+        }
+    }
+    
+     private void A6(Date dateEnd) {
+        if (dateEnd == null || dateEnd.before(new Date())) {
+            resultTest.put("A6", 0);
+        } else {
+            resultTest.put("A6", 1);
+        }
+    }
+     
+      private void A7(List<Task> tasks) {
+        if (tasks == null || tasks.isEmpty()) {
+            resultTest.put("A7", 0);
+        } else {
+            resultTest.put("A7", 1);
         }
     }
 

@@ -15,6 +15,12 @@ angular.module('questionnaireService', [])
                                     isArray: true,
                                     responseType: 'json'
                                 },
+                                getAllFinish: {
+                                    method: 'GET',
+                                    url: '../api/questionnaire/allFinish',
+                                    isArray: true,
+                                    responseType: 'json'
+                                },
                                 save: {
                                     method: 'POST',
                                     url: '../api/questionnaire/add',
