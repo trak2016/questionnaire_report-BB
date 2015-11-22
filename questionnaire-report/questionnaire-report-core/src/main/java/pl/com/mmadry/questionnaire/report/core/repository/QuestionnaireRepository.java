@@ -12,7 +12,7 @@ import pl.com.mmadry.questionnaire.report.core.model.Questionnaire;
  */
 public interface QuestionnaireRepository extends JpaRepository<Questionnaire, Long>{
     
-    List<Questionnaire> findByStatus(QuestionnaireType status);
+    List<Questionnaire> findByStatusAndRemovedFalse(QuestionnaireType status);
     
     List<Questionnaire> findByStatusAndTimeEndBefore(QuestionnaireType status, Date endTime);
     

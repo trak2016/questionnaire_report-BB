@@ -38,6 +38,12 @@ angular.module('questionnaireService', [])
                                     params: {id: '@id'},
                                     responseType: 'json'
                                 },
+                                deleteById: {
+                                    method: 'GET',
+                                    url: '../api/questionnaire/delete/:questionnaireId',
+                                    params: {questionnaireId: '@questionnaireId'},
+                                    responseType: 'json'
+                                },
                             }
                     )
                 };

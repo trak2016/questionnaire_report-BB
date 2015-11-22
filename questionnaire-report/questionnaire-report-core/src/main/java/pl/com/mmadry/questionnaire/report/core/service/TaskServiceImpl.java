@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.com.mmadry.questionnaire.report.core.enums.TaskType;
 import pl.com.mmadry.questionnaire.report.core.model.Task;
 import pl.com.mmadry.questionnaire.report.core.repository.TaskRepository;
 
@@ -56,9 +57,15 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    @Transactional(readOnly = true)
+    
     public Task getByUserDataIdAndQuestionnaireId(Long userDataId, Long questionnaireId) {
         return taskRepository.findByUserDataIdAndQuestionnaireId(userDataId, questionnaireId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Task> getByStatus(TaskType taskType) {
+        return taskRepository.findByStatus(taskType);
     }
     
 }

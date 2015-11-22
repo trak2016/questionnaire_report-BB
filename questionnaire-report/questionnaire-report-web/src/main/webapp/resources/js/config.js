@@ -31,7 +31,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 data: {pageTitle: 'Ankiety zatwierdzone'}
             })
             .state('questionnaire.listFinish', {
-                url: "/listDone",
+                url: "/listFinish",
                 templateUrl: "views/questionnaire/listFinish.html",
                 controller: "questionnaireFinishController",
                 data: {pageTitle: 'Ankiety zakończone'}
@@ -45,7 +45,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                     loadPlugin: function ($ocLazyLoad) {
                         return $ocLazyLoad.load([
                             {
-                            insertBefore: '#loadBefore',
+                                insertBefore: '#loadBefore',
                                 name: 'angular.chosen',
                                 files: ['css/plugins/chosen/chosen.css', 'js/plugins/chosen/chosen.jquery.js', 'js/plugins/angular-chosen/angular-chosen.js']
                             },
@@ -88,11 +88,28 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 url: "/task",
                 templateUrl: "views/common/content.html"
             })
-            .state('task.list', {
-                url: "/task",
-                templateUrl: "views/task/list.html",
-                controller: "taskController",
-                data: {pageTitle: 'Zadania'}
+            .state('task.listActive', {
+                url: "/taskActive",
+                templateUrl: "views/task/listActive.html",
+                controller: "taskActiveController",
+                data: {pageTitle: 'Aktywne zadania'}
+            })
+            .state('task.listFinish', {
+                url: "/taskFinish",
+                templateUrl: "views/task/listFinish.html",
+                controller: "taskFinishController",
+                data: {pageTitle: 'Zakończone zadania'}
+            })
+            .state('user', {
+                abstract: true,
+                url: "/user",
+                templateUrl: "views/common/content.html"
+            })
+            .state('user.list', {
+                url: "/userlist",
+                templateUrl: "views/user/list.html",
+                controller: "userController",
+                data: {pageTitle: 'Użytkownicy systemu'}
             })
 
 

@@ -240,5 +240,11 @@ public class QuestionnaireHelper extends BaseHelper {
         q.setStatus(QuestionnaireType.ACTIVE);
         questionnaireService.update(q);
     }
+    
+    public void deleteById(Long id) {
+        Questionnaire q = questionnaireService.getElement(id);
+        q.setRemoved(true);
+        questionnaireService.update(q);
+    }
 
 }

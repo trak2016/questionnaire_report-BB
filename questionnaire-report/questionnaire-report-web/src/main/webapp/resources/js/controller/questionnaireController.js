@@ -10,7 +10,7 @@ angular.module('questionnaireController', ['ui.bootstrap'])
 
                 $scope.dtOptions = DTOptionsBuilder.newOptions()
                         .withOption('info', false)
-                        .withDisplayLength(5)
+                        .withDisplayLength(10)
                         .withLanguage({
                             "sInfo": "",
                             "sLengthMenu": "Pokaż _MENU_ pozycji",
@@ -67,6 +67,26 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                         QuestionnaireService.api.startQuestionnaire({'id': id}).$promise.then(function (result) {
                             $state.go('questionnaire.listDone');
                             toastr.success('Ankieta została wystartowana.', 'Powodzenie!');
+                        });
+                    });
+                };
+
+                $scope.deleteQuestionnaire = function (id) {
+                    swal({
+                        title: "",
+                        text: "Na pewno chcesz usunąć ankietę?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Tak",
+                        cancelButtonText: "Nie",
+                        closeOnConfirm: true
+                    }, function () {
+                        QuestionnaireService.api.deleteById({'questionnaireId': id}).$promise.then(function (result) {
+                            toastr.success('Ankieta została usunięta.', 'Powodzenie!');
+                            QuestionnaireService.api.getAllTemplate().$promise.then(function (result) {
+                                $scope.questionnaires = result;
+                            });
                         });
                     });
                 };
@@ -241,7 +261,7 @@ angular.module('questionnaireController', ['ui.bootstrap'])
 
                 $scope.dtOptions = DTOptionsBuilder.newOptions()
                         .withOption('info', false)
-                        .withDisplayLength(5)
+                        .withDisplayLength(10)
                         .withLanguage({
                             "sInfo": "",
                             "sLengthMenu": "Pokaż _MENU_ pozycji",
@@ -269,10 +289,9 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                             .withOption('defaultContent', ""),
                     DTColumnDefBuilder
                             .newColumnDef(3)
-                            .notSortable()
                             .withOption('defaultContent', ""),
                     DTColumnDefBuilder
-                            .newColumnDef(3)
+                            .newColumnDef(4)
                             .notSortable()
                             .withOption('defaultContent', "")
                 ];
@@ -289,7 +308,7 @@ angular.module('questionnaireController', ['ui.bootstrap'])
 
                 $scope.dtOptions = DTOptionsBuilder.newOptions()
                         .withOption('info', false)
-                        .withDisplayLength(5)
+                        .withDisplayLength(10)
                         .withLanguage({
                             "sInfo": "",
                             "sLengthMenu": "Pokaż _MENU_ pozycji",
@@ -317,6 +336,9 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                             .withOption('defaultContent', ""),
                     DTColumnDefBuilder
                             .newColumnDef(3)
+                            .withOption('defaultContent', ""),
+                    DTColumnDefBuilder
+                            .newColumnDef(4)
                             .notSortable()
                             .withOption('defaultContent', "")
                 ];

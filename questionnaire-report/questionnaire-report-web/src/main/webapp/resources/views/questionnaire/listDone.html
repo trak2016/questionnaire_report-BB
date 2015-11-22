@@ -31,6 +31,7 @@
                                     <th>Tytuł</th>
                                     <th>Cel</th>
                                     <th>Opis</th>
+                                    <th>Data zakończenia</th>
                                     <th style="text-align: right;width: 100px;"></th>
                                 </tr>
                             </thead>
@@ -39,6 +40,7 @@
                                     <td>{{questionnaire.title}}</td>
                                     <td>{{questionnaire.targer}}</td>
                                     <td>{{questionnaire.description}}</td>
+                                    <td>{{questionnaire.timeEnd | date:'dd/MM/yyyy'}}</td>
                                     <td style="text-align: right;width: 100px;">
 <!--                                        <button ng-click="editQuestionnaire(questionnaire.id)" class="btn btn-primary btn-xs">Edytuj</button>-->
                                     </td>

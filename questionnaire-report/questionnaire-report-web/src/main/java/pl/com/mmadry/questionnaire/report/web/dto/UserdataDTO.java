@@ -1,5 +1,6 @@
 package pl.com.mmadry.questionnaire.report.web.dto;
 
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -12,6 +13,8 @@ public class UserdataDTO {
     private String name;
     private String surname;
     private String email;
+    private Date creationDate;
+    private Boolean enabled;
 
     public Long getId() {
         return id;
@@ -45,6 +48,22 @@ public class UserdataDTO {
         this.email = email;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,5 +77,10 @@ public class UserdataDTO {
         int result = getId().intValue();
         result = 31 * result;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UserdataDTO{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + ", creationDate=" + creationDate + ", enabled=" + enabled + '}';
     }
 }

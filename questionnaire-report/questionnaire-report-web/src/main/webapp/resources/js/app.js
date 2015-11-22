@@ -16,11 +16,13 @@
         'profilController',
         'archiveController',
         'taskController',
+        'userController',
         // services
         'authService',
         'questionnaireService',
         'profilService',
-        'userService'
+        'userService',
+        'taskService'
         // directives
         
         // Idle timer

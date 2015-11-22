@@ -74,6 +74,9 @@ public class Questionnaire extends BaseEntity {
     @Column(name = "index_cal")
     private Integer indexCal;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean removed = false;
+
     public Questionnaire() {
         this.status = QuestionnaireType.TEMPLATE;
     }
@@ -166,5 +169,13 @@ public class Questionnaire extends BaseEntity {
 
     public void setTimeReminder(Date timeReminder) {
         this.timeReminder = timeReminder;
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
     }
 }

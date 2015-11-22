@@ -29,6 +29,8 @@ public class UserdataHelper extends BaseHelper{
             dto.setId(ud.getId());
             dto.setName(ud.getName());
             dto.setSurname(ud.getSurname());
+            dto.setCreationDate(ud.getCreationDate());
+            dto.setEnabled(ud.getUser().isEnabled());
             dtos.add(dto);
         }
         

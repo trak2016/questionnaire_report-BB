@@ -60,7 +60,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
     @Override
     @Transactional(readOnly = true)
     public List<Questionnaire> getByStatus(QuestionnaireType ststus) {
-       return questionnaireRepository.findByStatus(ststus);
+       return questionnaireRepository.findByStatusAndRemovedFalse(ststus);
     }
 
     @Override

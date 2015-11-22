@@ -41,9 +41,10 @@
                                     <td>{{questionnaire.targer}}</td>
                                     <td>{{questionnaire.description}}</td>
                                     <th ng-style="questionnaire.correct == true ? {'color': '#339900'} : {'color': '#ff0033'}">{{questionnaire.indexCal}}%</th>
-                                    <td style="text-align: right;width: 150px;">
+                                    <td style="text-align: right;width: 170px;">
                                         <button ng-click="editQuestionnaire(questionnaire.id)" class="btn btn-xs">Edytuj</button>
                                         <button ng-disabled="questionnaire.correct != true" ng-click="startQuestionnaire(questionnaire.id)" class="btn btn-primary btn-xs">Wystartuj</button>
+                                        <button ng-click="deleteQuestionnaire(questionnaire.id)" class="btn btn-danger btn-xs">Usuń</button>
                                     </td>
                                 </tr>
                             </tbody>
