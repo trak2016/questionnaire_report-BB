@@ -13,6 +13,7 @@ public class TaskDTO {
     private String userName;
     private String userSurname;
     private String userEmail;
+    private String status;
 
     public String getQuestionnaireTitle() {
         return questionnaireTitle;
@@ -54,9 +55,17 @@ public class TaskDTO {
         this.userEmail = userEmail;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "TaskDTO{" + "questionnaireTitle=" + questionnaireTitle + ", timeEnd=" + timeEnd + ", userName=" + userName + ", userSurname=" + userSurname + ", userEmail=" + userEmail + '}';
+        return "TaskDTO{" + "questionnaireTitle=" + questionnaireTitle + ", timeEnd=" + timeEnd + ", userName=" + userName + ", userSurname=" + userSurname + ", userEmail=" + userEmail + ", status=" + status + '}';
     }
 
 }

@@ -53,17 +53,17 @@ public class QuestionnaireHelper extends BaseHelper {
     public List<QuestionnaireDTO> getTemplates() {
 
         List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.TEMPLATE);
-        return prepareDTOs(questionnaires);
+        return prepareDTOs(questionnaires, false);
     }
 
     public List<QuestionnaireDTO> getReadys() {
         List<Questionnaire> questionnaires = questionnaireService.getByStatusAndDateEndAfter(QuestionnaireType.ACTIVE, new Date());
-        return prepareDTOs(questionnaires);
+        return prepareDTOs(questionnaires, true);
     }
 
     public List<QuestionnaireDTO> getFinish() {
         List<Questionnaire> questionnaires = questionnaireService.getByStatusAndDateEndBefore(QuestionnaireType.ACTIVE, new Date());
-        return prepareDTOs(questionnaires);
+        return prepareDTOs(questionnaires, true);
     }
 
     public void addNewQuestionnaire(QuestionnaireDTO dto) {
@@ -224,13 +224,20 @@ public class QuestionnaireHelper extends BaseHelper {
         return dto;
     }
 
-    private List<QuestionnaireDTO> prepareDTOs(List<Questionnaire> dbos) {
+    private List<QuestionnaireDTO> prepareDTOs(List<Questionnaire> dbos, Boolean taskInformation) {
         List<QuestionnaireDTO> questionnaireDTOs = new ArrayList<>();
         for (Questionnaire questionnaire : dbos) {
             QuestionnaireAssemblerParameters parameters = new QuestionnaireAssemblerParameters.Builder()
                     .dbo(questionnaire)
                     .build();
-            questionnaireDTOs.add(questionnaireAssembler.assemblyToDto(parameters));
+            QuestionnaireDTO dto = questionnaireAssembler.assemblyToDto(parameters);
+            
+            if(taskInformation){
+                dto.setNumberTask(taskService.getNumberTaskByQuestionnaire(questionnaire));
+                dto.setNumberFinishTask(taskService.getNumberFinishTaskByQuestionnaire(questionnaire));
+            }
+            
+            questionnaireDTOs.add(dto);
         }
         return questionnaireDTOs;
     }

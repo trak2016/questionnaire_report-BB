@@ -7,6 +7,7 @@ package pl.com.mmadry.questionnaire.report.core.enums;
 public enum TaskType {
     
     DONE,
+    DONE_NOT,
     ACTIVE,
     WAIT
     

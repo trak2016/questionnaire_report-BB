@@ -14,6 +14,18 @@ angular.module('taskService', [])
                                     url: '../api/task/allFinish',
                                     isArray: true,
                                     responseType: 'json'
+                                },
+                                getAllActiveUser: {
+                                    method: 'GET',
+                                    url: '../api/task/allActiveUser',
+                                    isArray: true,
+                                    responseType: 'json'
+                                },
+                                getAllFinishUser: {
+                                    method: 'GET',
+                                    url: '../api/task/allFinishUser',
+                                    isArray: true,
+                                    responseType: 'json'
                                 }
                             }
                     )

@@ -35,9 +35,9 @@
                                 <tr ng-repeat="user in users">
                                     <td>{{user.name}} {{user.surname}} <small>{{user.email}}</small></td>
                                     <td>{{user.creationDate | date:'dd/MM/yyyy'}}</td>
-                                    <td>{{user.enabled}}</td>
+                                    <td>{{user.enabled ? "Tak" : "Nie"}}</td>
                                     <td style="text-align: right;width: 100px;">
-<!--                                        <button ng-click="editQuestionnaire(questionnaire.id)" class="btn btn-primary btn-xs">Edytuj</button>-->
+                                        <button ng-click="blockUnlock(user.id)" class="btn btn-primary btn-xs">{{user.enabled ? "Zablokuj" : "Odblokuj"}}</button>
                                     </td>
                                 </tr>
                             </tbody>

@@ -12,7 +12,9 @@ public interface UserDataService extends CrudService<UserData, Long> {
     void add(UserData element, Role... roles);
 
     void enableUser(long id);
-
+    
+    void enableDisableUser(Long id);
+    
     UserData findByToken(String token);
     
     UserData findByEmail(String email);

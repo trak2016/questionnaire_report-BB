@@ -22,6 +22,8 @@ public class QuestionnaireDTO implements Serializable {
     private Integer indexCal;
     private Date timeEnd;
     private List<UserdataDTO> users = new ArrayList<>();
+    private Integer numberTask;
+    private Integer numberFinishTask;
 
 
     public Long getId() {
@@ -72,11 +74,6 @@ public class QuestionnaireDTO implements Serializable {
         this.questions = questions;
     }
 
-    @Override
-    public String toString() {
-        return "QuestionnaireDTO{" + "title=" + title + ", status=" + status + ", targer=" + targer + ", description=" + description + ", questions=" + questions + '}';
-    }
-
     public Boolean getCorrect() {
         return correct;
     }
@@ -109,4 +106,19 @@ public class QuestionnaireDTO implements Serializable {
         this.users = users;
     }
 
+    public Integer getNumberTask() {
+        return numberTask;
+    }
+
+    public void setNumberTask(Integer numberTask) {
+        this.numberTask = numberTask;
+    }
+
+    public Integer getNumberFinishTask() {
+        return numberFinishTask;
+    }
+
+    public void setNumberFinishTask(Integer numberFinishTask) {
+        this.numberFinishTask = numberFinishTask;
+    }
 }

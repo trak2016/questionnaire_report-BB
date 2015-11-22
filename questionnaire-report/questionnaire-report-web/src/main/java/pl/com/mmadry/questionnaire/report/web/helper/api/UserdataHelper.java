@@ -38,4 +38,8 @@ public class UserdataHelper extends BaseHelper{
     
     }
     
+    public void blockUnlockUser(Long id){
+        userDataService.enableDisableUser(id);
+    }
+    
 }

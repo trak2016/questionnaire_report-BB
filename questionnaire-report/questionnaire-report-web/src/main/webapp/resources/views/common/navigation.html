@@ -41,14 +41,16 @@
 
                 </ul>
             </li>
-            
+
             <li ng-class="{active: $state.includes('task')}">
                 <a href=""><i class="fa fa-tasks"></i> <span class="nav-label">Zadania</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level" ng-class="{in: $state.includes('task')}">
 
                     <li ng-if="authData.roleSet.indexOf('ROLE_ADMIN') !== -1" ui-sref-active="active"><a ui-sref="task.listActive">Trwające</a></li>
                     <li ng-if="authData.roleSet.indexOf('ROLE_ADMIN') !== -1" ui-sref-active="active"><a ui-sref="task.listFinish">Zakończone</a></li>
-                    
+                    <li ng-if="authData.roleSet.indexOf('ROLE_USER') !== -1 && authData.roleSet.indexOf('ROLE_ADMIN') === -1" ui-sref-active="active"><a ui-sref="task.listUserActive">Trwające</a></li>
+                    <li ng-if="authData.roleSet.indexOf('ROLE_USER') !== -1 && authData.roleSet.indexOf('ROLE_ADMIN') === -1" ui-sref-active="active"><a ui-sref="task.listUserFinish">Zakończone</a></li>
+
                 </ul>
             </li>
 

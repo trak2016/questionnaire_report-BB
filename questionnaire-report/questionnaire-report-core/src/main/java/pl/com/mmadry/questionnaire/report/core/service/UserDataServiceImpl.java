@@ -157,5 +157,12 @@ public class UserDataServiceImpl implements UserDataService {
         return userDataRepository.findByUsername(username);
     }
 
+    @Override
+    public void enableDisableUser(Long id) {
+        UserData user = userDataRepository.findOne(id);
+        user.getUser().setEnabled(!user.getUser().isEnabled());
+        userDataRepository.save(user);
+    }
+
 
 }

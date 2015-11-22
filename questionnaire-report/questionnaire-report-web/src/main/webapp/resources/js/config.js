@@ -100,6 +100,18 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 controller: "taskFinishController",
                 data: {pageTitle: 'Zakończone zadania'}
             })
+            .state('task.listUserActive', {
+                url: "/taskUserActive",
+                templateUrl: "views/task/listUserActive.html",
+                controller: "taskUserActiveController",
+                data: {pageTitle: 'Aktywne zadania'}
+            })
+            .state('task.listUserFinish', {
+                url: "/taskUserFinish",
+                templateUrl: "views/task/listUserFinish.html",
+                controller: "taskUserFinishController",
+                data: {pageTitle: 'Zakończone zadania'}
+            })
             .state('user', {
                 abstract: true,
                 url: "/user",
