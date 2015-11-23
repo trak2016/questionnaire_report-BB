@@ -19,9 +19,9 @@
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>Lista ankiet<strong></strong></h5>
-<!--                    <div class="ibox-tools">
-                        <button class="btn btn-xs btn-primary" ng-click="addQuestionnaire()" type="submit">Dodaj nową ankietę</button>                        
-                    </div>-->
+                    <!--                    <div class="ibox-tools">
+                                            <button class="btn btn-xs btn-primary" ng-click="addQuestionnaire()" type="submit">Dodaj nową ankietę</button>                        
+                                        </div>-->
                 </div>
                 <div class="ibox-content">
                     <div class="project-list">                   
@@ -32,6 +32,7 @@
                                     <th>Cel</th>
                                     <th>Opis</th>
                                     <th>Data zakończenia</th>
+                                    <th>Kompletność</th>
                                     <th style="text-align: right;width: 100px;"></th>
                                 </tr>
                             </thead>
@@ -40,8 +41,11 @@
                                     <td>{{questionnaire.title}}</td>
                                     <td>{{questionnaire.targer}}</td>
                                     <td>{{questionnaire.description}}</td>
-                                    <td>{{questionnaire.timeEnd | date:'dd/MM/yyyy'}}</td>
+                                    <td>{{questionnaire.timeEnd| date:'dd/MM/yyyy'}}</td>
                                     <td><b>{{questionnaire.numberFinishTask}}/{{questionnaire.numberTask}}</b></td>
+                                    <td>
+                                        <button ng-disabled="questionnaire.numberFinishTask !== questionnaire.numberTask" ng-click="finishQuestionnaire(questionnaire.id)" class="btn btn-primary btn-xs">Zakończ przed czasem</button>
+                                    </td>
                                 </tr>
                             </tbody>
 

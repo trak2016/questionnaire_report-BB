@@ -31,6 +31,7 @@ public class QuestionnaireController {
     public static final String START_BY_ID = "/start/{id}";
     public static final String DELETE_BY_ID = "/delete/{id}";
     public static final String SEND = "/send";
+    public static final String FINISH = "/finish/{id}";
 
     @Autowired
     private QuestionnaireHelper questionnaireHelper;
@@ -76,6 +77,12 @@ public class QuestionnaireController {
     @RequestMapping(value = QuestionnaireController.SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> sendQuestionnaire(@RequestBody QuestionnaireDTO dto) {
         questionnaireHelper.sendQuestionnaire(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = QuestionnaireController.FINISH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> finishById(@PathVariable("id") Long id) {
+        questionnaireHelper.finishById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

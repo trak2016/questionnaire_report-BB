@@ -27,4 +27,6 @@ public interface TaskRepository extends JpaRepository<Task, Long>{
     
     List<Task> findByStatusAndUserData(TaskType status, UserData userData);
     
+    List<Task> findByStatusAndQuestionnaire(TaskType status, Questionnaire questionnaire);
+    
 }

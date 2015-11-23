@@ -57,12 +57,12 @@ public class QuestionnaireHelper extends BaseHelper {
     }
 
     public List<QuestionnaireDTO> getReadys() {
-        List<Questionnaire> questionnaires = questionnaireService.getByStatusAndDateEndAfter(QuestionnaireType.ACTIVE, new Date());
+        List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.ACTIVE);
         return prepareDTOs(questionnaires, true);
     }
 
     public List<QuestionnaireDTO> getFinish() {
-        List<Questionnaire> questionnaires = questionnaireService.getByStatusAndDateEndBefore(QuestionnaireType.ACTIVE, new Date());
+        List<Questionnaire> questionnaires = questionnaireService.getByStatus(QuestionnaireType.FINISH);
         return prepareDTOs(questionnaires, true);
     }
 
@@ -296,6 +296,12 @@ public class QuestionnaireHelper extends BaseHelper {
         task.setStatus(TaskType.DONE);
         task.setTimeEnd(new Date());
         taskService.update(task);
+    }
+    
+    public void finishById(Long id){
+        Questionnaire q = questionnaireService.getElement(id);
+        q.setStatus(QuestionnaireType.FINISH);
+        questionnaireService.update(q);
     }
 
 }

@@ -293,8 +293,29 @@ angular.module('questionnaireController', ['ui.bootstrap'])
                     DTColumnDefBuilder
                             .newColumnDef(4)
                             .notSortable()
+                            .withOption('defaultContent', ""),
+                    DTColumnDefBuilder
+                            .newColumnDef(5)
+                            .notSortable()
                             .withOption('defaultContent', "")
                 ];
+
+                $scope.finishQuestionnaire = function (id) {
+                    swal({
+                        title: "",
+                        text: "Na pewno chcesz zakończyć ankietę przed czasem?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Tak",
+                        cancelButtonText: "Nie",
+                        closeOnConfirm: true
+                    }, function () {
+                        QuestionnaireService.api.finishQuestionnaire({'id':id}).$promise.then(function (result) {
+                            $state.go('questionnaire.listFinish');
+                        });
+                    });
+                };
 
             }])
         .controller('questionnaireFinishController', ['$scope', '$rootScope', '$state', '$http', 'toastr', 'QuestionnaireService', 'DTOptionsBuilder', 'DTColumnDefBuilder',

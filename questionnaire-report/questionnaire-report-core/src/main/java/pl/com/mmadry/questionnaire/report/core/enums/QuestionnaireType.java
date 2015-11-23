@@ -9,5 +9,6 @@ public enum QuestionnaireType {
     TEMPLATE,
     READY,
     ACTIVE,
+    FINISH
     
 }
