@@ -1,5 +1,7 @@
 package pl.com.mmadry.questionnaire.report.core.model;
 
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -7,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import pl.com.mmadry.questionnaire.report.core.enums.TaskType;
 
 /**
@@ -28,6 +32,10 @@ public class Task extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private TaskType status;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "timeEnd")
+    private Date timeEnd;
 
     public TaskType getStatus() {
         return status;
@@ -53,4 +61,11 @@ public class Task extends BaseEntity {
         this.questionnaire = questionnaire;
     }
 
+    public Date getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(Date timeEnd) {
+        this.timeEnd = timeEnd;
+    }
 }

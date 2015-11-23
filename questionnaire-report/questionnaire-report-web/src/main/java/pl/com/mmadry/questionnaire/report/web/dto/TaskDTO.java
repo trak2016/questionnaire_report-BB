@@ -8,6 +8,7 @@ import java.util.Date;
  */
 public class TaskDTO {
     
+    private Long questionnaireId;
     private String questionnaireTitle;
     private Date timeEnd;
     private String userName;
@@ -15,6 +16,14 @@ public class TaskDTO {
     private String userEmail;
     private String status;
 
+    public Long getQuestionnaireId() {
+        return questionnaireId;
+    }
+
+    public void setQuestionnaireId(Long questionnaireId) {
+        this.questionnaireId = questionnaireId;
+    }
+    
     public String getQuestionnaireTitle() {
         return questionnaireTitle;
     }
@@ -65,7 +74,7 @@ public class TaskDTO {
 
     @Override
     public String toString() {
-        return "TaskDTO{" + "questionnaireTitle=" + questionnaireTitle + ", timeEnd=" + timeEnd + ", userName=" + userName + ", userSurname=" + userSurname + ", userEmail=" + userEmail + ", status=" + status + '}';
+        return "TaskDTO{" + "questionnaireId=" + questionnaireId + ", questionnaireTitle=" + questionnaireTitle + ", timeEnd=" + timeEnd + ", userName=" + userName + ", userSurname=" + userSurname + ", userEmail=" + userEmail + ", status=" + status + '}';
     }
 
 }

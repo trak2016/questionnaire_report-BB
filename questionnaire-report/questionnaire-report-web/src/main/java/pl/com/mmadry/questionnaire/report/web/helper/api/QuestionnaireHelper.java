@@ -1,6 +1,5 @@
 package pl.com.mmadry.questionnaire.report.web.helper.api;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +14,7 @@ import pl.com.mmadry.questionnaire.report.core.model.Answer;
 import pl.com.mmadry.questionnaire.report.core.model.Question;
 import pl.com.mmadry.questionnaire.report.core.model.Questionnaire;
 import pl.com.mmadry.questionnaire.report.core.model.Task;
+import pl.com.mmadry.questionnaire.report.core.model.UserData;
 import pl.com.mmadry.questionnaire.report.core.service.AnswerService;
 import pl.com.mmadry.questionnaire.report.core.service.QuestionService;
 import pl.com.mmadry.questionnaire.report.core.service.QuestionnaireService;
@@ -83,7 +83,7 @@ public class QuestionnaireHelper extends BaseHelper {
         questionnaire.setTitle(dto.getTitle());
         questionnaire.setTarger(dto.getTarger());
         questionnaire.setDescription(dto.getDescription());
-        
+
         //date end
         Calendar c = Calendar.getInstance();
         c.setTime(dto.getTimeEnd());
@@ -111,18 +111,21 @@ public class QuestionnaireHelper extends BaseHelper {
 
             Integer j = 1;
             List<Answer> answers = new LinkedList<>();
-            for (AnswerDTO answerDTO : questionDTO.getAnswers()) {
-                Answer answer;
-                if (answerDTO.getId() == null) {
-                    answer = new Answer();
-                } else {
-                    answer = answerService.getElement(answerDTO.getId());
+
+            if (!question.getType().equals("text")) {
+                for (AnswerDTO answerDTO : questionDTO.getAnswers()) {
+                    Answer answer;
+                    if (answerDTO.getId() == null) {
+                        answer = new Answer();
+                    } else {
+                        answer = answerService.getElement(answerDTO.getId());
+                    }
+                    answer.setNumber(j);
+                    answer.setText(answerDTO.getText());
+                    answer.setQuestion(question);
+                    answers.add(answer);
+                    j++;
                 }
-                answer.setNumber(j);
-                answer.setText(answerDTO.getText());
-                answer.setQuestion(question);
-                answers.add(answer);
-                j++;
             }
 
             question.setAnswers(answers);
@@ -148,8 +151,8 @@ public class QuestionnaireHelper extends BaseHelper {
                     task.setQuestionnaire(questionnaire);
                     task.setUserData(userDataService.getElement(udDTO.getId()));
                     task.setStatus(TaskType.WAIT);
-                    tasks.add(task);
                 }
+                tasks.add(task);
             }
         }
         questionnaire.setTasks(tasks);
@@ -231,12 +234,12 @@ public class QuestionnaireHelper extends BaseHelper {
                     .dbo(questionnaire)
                     .build();
             QuestionnaireDTO dto = questionnaireAssembler.assemblyToDto(parameters);
-            
-            if(taskInformation){
+
+            if (taskInformation) {
                 dto.setNumberTask(taskService.getNumberTaskByQuestionnaire(questionnaire));
                 dto.setNumberFinishTask(taskService.getNumberFinishTaskByQuestionnaire(questionnaire));
             }
-            
+
             questionnaireDTOs.add(dto);
         }
         return questionnaireDTOs;
@@ -244,14 +247,55 @@ public class QuestionnaireHelper extends BaseHelper {
 
     public void startById(Long id) {
         Questionnaire q = questionnaireService.getElement(id);
+
+        for (Task task : q.getTasks()) {
+            task.setStatus(TaskType.ACTIVE);
+            taskService.update(task);
+        }
+
         q.setStatus(QuestionnaireType.ACTIVE);
         questionnaireService.update(q);
     }
-    
+
     public void deleteById(Long id) {
         Questionnaire q = questionnaireService.getElement(id);
         q.setRemoved(true);
         questionnaireService.update(q);
+    }
+
+    public void sendQuestionnaire(QuestionnaireDTO dto) {
+
+        UserData ud = userDataService.getLoggedUserData();
+        for (QuestionDTO q : dto.getQuestions()) {
+            if (q.getType().equals("text")) {
+                Answer ans = new Answer();
+                ans.setQuestion(questionService.getElement(q.getId()));
+                ans.setText(q.getAnsText());
+                ans.getUserDatas().add(ud);
+                answerService.add(ans);
+
+            }
+            if (q.getType().equals("checkbox")) {
+                for (AnswerDTO a : q.getAnswers()) {
+                    if (a.getAns()) {
+                        Answer ans = answerService.getElement(a.getId());
+                        ans.getUserDatas().add(ud);
+                        answerService.update(ans);
+                    }
+                }
+            }
+            if (q.getType().equals("radio")) {
+                Answer answer = answerService.getElement(q.getAns());
+                answer.getUserDatas().add(ud);
+                answerService.update(answer);
+            }
+
+        }
+        
+        Task task = taskService.getByUserDataIdAndQuestionnaireId(ud.getId(), dto.getId());
+        task.setStatus(TaskType.DONE);
+        task.setTimeEnd(new Date());
+        taskService.update(task);
     }
 
 }

@@ -17,24 +17,35 @@ import pl.com.mmadry.questionnaire.report.web.helper.api.TaskHelper;
 @RestController
 @RequestMapping(TaskController.URL)
 public class TaskController {
-    
+
     protected Logger logger = Logger.getLogger(getClass());
     public static final String URL = "/api/task";
     public static final String ALL_ACTIVE = "/allActive";
     public static final String ALL_FINISH = "/allFinish";
-    
+    public static final String ALL_ACTIVE_USER = "/allActiveUser";
+    public static final String ALL_FINISH_USER = "/allFinishUser";
+
     @Autowired
     private TaskHelper taskHelper;
-    
+
     @RequestMapping(value = TaskController.ALL_ACTIVE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllActive() {
         return new ResponseEntity<>(taskHelper.getAllActive(), HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = TaskController.ALL_FINISH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllFinish() {
         return new ResponseEntity<>(taskHelper.getAllFinish(), HttpStatus.OK);
     }
-    
-    
+
+    @RequestMapping(value = TaskController.ALL_ACTIVE_USER, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllActiveUser() {
+        return new ResponseEntity<>(taskHelper.getAllUserActive(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = TaskController.ALL_FINISH_USER, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAllFinishUser() {
+        return new ResponseEntity<>(taskHelper.getAllUserFinish(), HttpStatus.OK);
+    }
+
 }

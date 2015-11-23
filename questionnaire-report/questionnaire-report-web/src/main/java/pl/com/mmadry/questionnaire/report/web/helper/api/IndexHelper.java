@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.com.mmadry.questionnaire.report.core.model.Answer;
 import pl.com.mmadry.questionnaire.report.core.model.Question;
 import pl.com.mmadry.questionnaire.report.core.model.Questionnaire;
 import pl.com.mmadry.questionnaire.report.core.model.Task;
+import pl.com.mmadry.questionnaire.report.core.service.TaskService;
 import pl.com.mmadry.questionnaire.report.web.helper.BaseHelper;
 
 /**
@@ -21,6 +23,9 @@ import pl.com.mmadry.questionnaire.report.web.helper.BaseHelper;
 @Transactional
 public class IndexHelper extends BaseHelper {
 
+    @Autowired
+    private TaskService taskService;
+    
     public class IndexInfo {
 
         public Integer index;
@@ -43,6 +48,7 @@ public class IndexHelper extends BaseHelper {
 
     public IndexInfo calculateIndex(Questionnaire questionnaire) {
         startTest(questionnaire);
+        System.out.println(resultTest);
         IndexInfo returnValue = new IndexInfo();
 
         int suma = 0;
@@ -175,7 +181,7 @@ public class IndexHelper extends BaseHelper {
             for (Answer answer : question.getAnswers()) {
                 textWithNoWhitespces = answer.getText().replace(" ", "");
                 textWithNoWhitespces = textWithNoWhitespces.replace(".", "");
-                if (textWithNoWhitespces.length() < 10) {
+                if (textWithNoWhitespces.length() < 2) {
                     test = false;
                     break;
                 }

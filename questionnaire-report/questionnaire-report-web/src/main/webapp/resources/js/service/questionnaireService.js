@@ -44,6 +44,11 @@ angular.module('questionnaireService', [])
                                     params: {questionnaireId: '@questionnaireId'},
                                     responseType: 'json'
                                 },
+                                send: {
+                                    method: 'POST',
+                                    url: '../api/questionnaire/send',
+                                    responseType: 'json'
+                                },
                             }
                     )
                 };

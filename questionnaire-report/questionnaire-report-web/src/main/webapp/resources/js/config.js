@@ -112,6 +112,12 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 controller: "taskUserFinishController",
                 data: {pageTitle: 'Zakończone zadania'}
             })
+            .state('task.questionnaire', {
+                url: "/questionnaire?id",
+                templateUrl: "views/questionnaire/questionnaire.html",
+                controller: "questionnaireTaskController",
+                data: {pageTitle: 'Ankieta'}
+            })
             .state('user', {
                 abstract: true,
                 url: "/user",

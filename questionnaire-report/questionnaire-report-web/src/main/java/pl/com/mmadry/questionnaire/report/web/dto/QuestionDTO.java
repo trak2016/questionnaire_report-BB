@@ -15,6 +15,8 @@ public class QuestionDTO implements Serializable{
     private String type;
     private Integer number;
     private List<AnswerDTO> answers = new LinkedList<>();
+    private String ansText;
+    private Long ans;
 
     public Long getId() {
         return id;
@@ -56,9 +58,25 @@ public class QuestionDTO implements Serializable{
         this.number = number;
     }
 
+    public String getAnsText() {
+        return ansText;
+    }
+
+    public void setAnsText(String ansText) {
+        this.ansText = ansText;
+    }
+
+    public Long getAns() {
+        return ans;
+    }
+
+    public void setAns(Long ans) {
+        this.ans = ans;
+    }
+
     @Override
     public String toString() {
-        return "QuestionDTO{" + "id=" + id + ", text=" + text + ", type=" + type + ", number=" + number + ", answers=" + answers + '}';
+        return "QuestionDTO{" + "id=" + id + ", text=" + text + ", type=" + type + ", number=" + number + ", answers=" + answers + ", ansText=" + ansText + ", ans=" + ans + '}';
     }
 
 }

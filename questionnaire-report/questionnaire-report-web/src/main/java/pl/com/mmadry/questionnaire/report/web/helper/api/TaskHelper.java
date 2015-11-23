@@ -59,6 +59,7 @@ public class TaskHelper extends BaseHelper{
         
         for(Task task : tasks){
             TaskDTO dto = new TaskDTO();
+            dto.setQuestionnaireId(task.getQuestionnaire().getId());
             dto.setQuestionnaireTitle(task.getQuestionnaire().getTitle());
             dto.setTimeEnd(task.getQuestionnaire().getTimeEnd());
             dto.setUserEmail(task.getUserData().getEmail());
@@ -75,6 +76,7 @@ public class TaskHelper extends BaseHelper{
         
         for(Task task : tasks){
             TaskDTO dto = new TaskDTO();
+            dto.setQuestionnaireId(task.getQuestionnaire().getId());
             dto.setQuestionnaireTitle(task.getQuestionnaire().getTitle());
             dto.setTimeEnd(task.getQuestionnaire().getTimeEnd());
             dto.setStatus(task.getStatus().name());

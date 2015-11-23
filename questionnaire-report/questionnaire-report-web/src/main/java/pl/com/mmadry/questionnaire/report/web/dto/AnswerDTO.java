@@ -11,6 +11,11 @@ public class AnswerDTO implements Serializable{
     private Long id;
     private String text;
     private Integer number;
+    private Boolean ans;
+
+    public AnswerDTO() {
+        this.ans = false;
+    }
 
     public Long getId() {
         return id;
@@ -36,9 +41,17 @@ public class AnswerDTO implements Serializable{
         this.number = number;
     }
 
+    public Boolean getAns() {
+        return ans;
+    }
+
+    public void setAns(Boolean ans) {
+        this.ans = ans;
+    }
+
     @Override
     public String toString() {
-        return "AnswerDTO{" + "id=" + id + ", text=" + text + ", number=" + number + '}';
+        return "AnswerDTO{" + "id=" + id + ", text=" + text + ", number=" + number + ", ans=" + ans + '}';
     }
 
 }

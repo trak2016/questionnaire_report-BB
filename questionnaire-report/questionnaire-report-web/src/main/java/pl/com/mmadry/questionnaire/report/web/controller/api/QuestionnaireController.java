@@ -30,6 +30,7 @@ public class QuestionnaireController {
     public static final String GET_BY_ID = "/get/{id}";
     public static final String START_BY_ID = "/start/{id}";
     public static final String DELETE_BY_ID = "/delete/{id}";
+    public static final String SEND = "/send";
 
     @Autowired
     private QuestionnaireHelper questionnaireHelper;
@@ -43,12 +44,11 @@ public class QuestionnaireController {
     public ResponseEntity<?> getAllReady() {
         return new ResponseEntity<>(questionnaireHelper.getReadys(), HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = QuestionnaireController.ALL_FINISH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getAllFinish() {
         return new ResponseEntity<>(questionnaireHelper.getFinish(), HttpStatus.OK);
     }
-
 
     @RequestMapping(value = QuestionnaireController.ADD, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addNewQuestionnaire(@RequestBody QuestionnaireDTO dto) {
@@ -66,10 +66,16 @@ public class QuestionnaireController {
         questionnaireHelper.startById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = QuestionnaireController.DELETE_BY_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteById(@PathVariable("id") Long id) {
         questionnaireHelper.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = QuestionnaireController.SEND, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> sendQuestionnaire(@RequestBody QuestionnaireDTO dto) {
+        questionnaireHelper.sendQuestionnaire(dto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
