@@ -129,6 +129,23 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
                 controller: "userController",
                 data: {pageTitle: 'Użytkownicy systemu'}
             })
+            .state('reaport', {
+                abstract: true,
+                url: "/reaport",
+                templateUrl: "views/common/content.html"
+            })
+            .state('reaport.list', {
+                url: "/reaportlist",
+                templateUrl: "views/reaport/list.html",
+                controller: "reaportController",
+                data: {pageTitle: 'Raporty'}
+            })
+            .state('reaport.general', {
+                url: "/generalReaport?id",
+                templateUrl: "views/reaport/generalReaport.html",
+                controller: "generalReaportController",
+                data: {pageTitle: 'Ogólny raport'}
+            })
 
 
 }

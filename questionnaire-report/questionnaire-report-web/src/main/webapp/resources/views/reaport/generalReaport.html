@@ -1,0 +1,73 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>Ogólny raport</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a ui-sref="app.publications">Home</a>
+            </li>
+            <li class="active">
+                <strong>Ogólny raport</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Główne informacje o ankiecie</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" id="questionnaireForm" name="questionnaireForm" angular-validator angular-validator-submit="save()" novalidate>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Tytuł:</label>
+                            <div class="col-sm-11"><input type="text" name="title" class="form-control" ng-model="reaport.questionnaireTitle" required disabled="true"/></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Cel ankiety:</label>
+                            <div class="col-sm-11"><input type="text" class="form-control" ng-model="reaport.questionnaireTarger" disabled="true"/></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Opis:</label>
+                            <div class="col-sm-11"><textarea name="description" class="form-control" ng-model="reaport.questionnaireDescription" disabled="true"/></div>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>Pytania zawarte w ankiecie</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-b-sm m-t-sm">
+                        <div class="col-md-12">
+                            <div ng-repeat="question in reaport.questions" >
+                                <div class="form-group" >
+                                    <div class="col-sm-12"><label>{{$index + 1}}. {{question.text}} <small>({{question.type}})</small></label></div>
+                                    <div class="col-sm-12" style="margin-left: 20px" ng-repeat="answer in question.answers">
+                                        <label class="col-sm-11">
+                                            {{answer.text}} 
+                                        </label>
+                                        <label class="col-sm-1">
+                                            {{answer.count}}
+                                        </label>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
